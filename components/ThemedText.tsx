@@ -4,15 +4,16 @@ import { useThemeColor } from '@/hooks/useThemeColor';
 import { Colors } from '@/constants/Colors';
 
 type ThemedTextProps = TextProps & {
-    color?: keyof typeof Colors.light
-    type?: "header" | "caption" | "title" | "body1" | "default";
+    color?: keyof typeof Colors.light,
+    type?: "header" | "caption" | "title" | "body1" | "default" | "body2",
+    style?: object
 }
 
-export default function ThemedText({type = "default", color, ...rest}: ThemedTextProps){
+export default function ThemedText({type = "default",style , color, ...rest}: ThemedTextProps){
     const colors = useThemeColor();
   return (
     <View>
-      <Text style={[styles[type], {color: colors[color ?? "lightBlack"] ?? "drakGray"}]} {...rest} />
+      <Text style={[styles[type], {color: colors[color ?? "lightBlack"] ?? "drakGray"}, style]} {...rest} />
     </View>
   )
 }
@@ -38,9 +39,14 @@ const styles = StyleSheet.create({
         lineHeight: 20,
         fontWeight: "normal"
     },
-    body1: {
+    body2: {
         fontSize: 14,
         lineHeight: 16,
         fontWeight: "medium"
+    },
+    body1: {
+        fontSize: 16,
+        lineHeight: 24,
+        fontWeight: "normal"
     }
 })

@@ -25,7 +25,8 @@ const TabsLayout = () => {
           tabBarInactiveTintColor: '#616161',
           tabBarLabelStyle: {
             fontSize: 12,
-            lineHeight: 16
+            lineHeight: 16,
+            backgroundColor: "#FAFAFA"
           }
         }}
       >
