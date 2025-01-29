@@ -1,60 +1,46 @@
-import { Text, type TextProps, StyleSheet } from 'react-native';
-
+import { View, Text, TextProps, StyleSheet } from 'react-native'
+import React from 'react'
 import { useThemeColor } from '@/hooks/useThemeColor';
+import { Colors } from '@/constants/Colors';
 
-export type ThemedTextProps = TextProps & {
-  lightColor?: string;
-  darkColor?: string;
-  type?: 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link';
-};
+type ThemedTextProps = TextProps & {
+    color?: keyof typeof Colors.light
+    type?: "header" | "caption" | "title" | "body1" | "default";
+}
 
-export function ThemedText({
-  style,
-  lightColor,
-  darkColor,
-  type = 'default',
-  ...rest
-}: ThemedTextProps) {
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
-
+export default function ThemedText({type = "default", color, ...rest}: ThemedTextProps){
+    const colors = useThemeColor();
   return (
-    <Text
-      style={[
-        { color },
-        type === 'default' ? styles.default : undefined,
-        type === 'title' ? styles.title : undefined,
-        type === 'defaultSemiBold' ? styles.defaultSemiBold : undefined,
-        type === 'subtitle' ? styles.subtitle : undefined,
-        type === 'link' ? styles.link : undefined,
-        style,
-      ]}
-      {...rest}
-    />
-  );
+    <View>
+      <Text style={[styles[type], {color: colors[color ?? "lightBlack"] ?? "drakGray"}]} {...rest} />
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
-  default: {
-    fontSize: 16,
-    lineHeight: 24,
-  },
-  defaultSemiBold: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontWeight: '600',
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    lineHeight: 32,
-  },
-  subtitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  link: {
-    lineHeight: 30,
-    fontSize: 16,
-    color: '#0a7ea4',
-  },
-});
+    header: {
+        fontSize: 20,
+        lineHeight: 24,
+        fontWeight: "bold"
+    },
+    caption: {
+        fontSize: 12,
+        lineHeight: 16,
+        fontWeight: "normal"
+    },
+    title: {
+        fontSize: 10,
+        lineHeight: 16,
+        fontWeight: "medium"
+    },
+    default: {
+        fontSize: 14,
+        lineHeight: 20,
+        fontWeight: "normal"
+    },
+    body1: {
+        fontSize: 14,
+        lineHeight: 16,
+        fontWeight: "medium"
+    }
+})
