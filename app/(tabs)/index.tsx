@@ -1,13 +1,12 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import ThemedText from "@/components/ThemedText";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StatusBar } from 'expo-status-bar';
-import KTextInput from '../../components/KTextInput';
 import CategoryIcons from '@/constants/CategoryIcons'
-import ListItem from '../../components/ListItem';
 import ListGroup from '../../components/ListGroup';
-import Overview from '../../components/Overview'
-
+import Overview from '../../components/Overview';
+import Icons from '@/constants/Icons'
+import Calendar from '../../components/Calendar';
+import PrimaryButton from '../../components/PrimaryButton';
 type categoryType = keyof typeof CategoryIcons
 
 type ItemType = {
@@ -47,19 +46,39 @@ const items: ItemType[] = [
     description: "Karama eoah",
     amount: 1000,
     income: true
-  }
+  },
+  {
+    category: "Savings",
+    description: "Karama eoah",
+    amount: 1000,
+    income: true
+  },
+  {
+    category: "Savings",
+    description: "Karama eoah",
+    amount: 1000,
+    income: true
+  },
   ]
 
 export default function Index() {
   return (
     <SafeAreaView style={styles.container}>
-      <ThemedText type="header" color="focused">yes</ThemedText> 
-      <StatusBar backgroundColor="rgba(33, 33, 33, 0.18)" />
-      <KTextInput label="Category name">Groceries</KTextInput>
-      <KTextInput label="Category name" focused>Groceries</KTextInput>
-      <ListItem icon={CategoryIcons.Cafe} category="Cafe" description="Eggs & Veggies" amount={800}/>
-      <ListGroup items={items}/>
-      <Overview />
+        <View style={styles.header}>
+          <Image source={Icons.Logo}/>
+          <ThemedText type="header" color="darkGray">Kitty</ThemedText>
+        </View>
+        <Calendar />
+        <Overview />
+        <ListGroup items={items}/>
+        <ListGroup items={items}/>
+        <View style={styles.buttonContainer}>
+          <PrimaryButton icon={Icons.addPlus} 
+                         style={{borderRadius: 44, paddingHorizontal: 20, paddingVertical: 16,
+                                width: 130}}>
+            Add new
+            </PrimaryButton>
+        </View>
     </SafeAreaView>
   );
 }
@@ -68,6 +87,20 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    paddingHorizontal: 16,
+    width: "100%"
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    height: 48,
+  },
+  buttonContainer: {
+    position: "absolute",
+    width: 130,
+    bottom: 24,
+    left: "50%",
+    transform: [{ translateX: -49 }],
   }
 })
