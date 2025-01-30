@@ -5,12 +5,13 @@ import ThemedText from './ThemedText';
 type primaryButtonType = {
     icon?: ImageSourcePropType,
     style?: object,
-    children: ReactNode
+    children: ReactNode,
+    handlePress?: () => void
 }
 
-const PrimaryButton = ({icon, style, children}: primaryButtonType) => {
+const PrimaryButton = ({icon, style, children, handlePress}: primaryButtonType) => {
   return (
-    <TouchableOpacity style={[styles.button, style]}>
+    <TouchableOpacity style={[styles.button, style]} onPress={handlePress}>
        {icon && <Image source={icon} style={styles.icon} />}
       <ThemedText type="body2" color="white">{children}</ThemedText>
     </TouchableOpacity>
