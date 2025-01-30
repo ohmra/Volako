@@ -5,15 +5,18 @@ import ThemedText from "@/components/ThemedText";
 
 type TextInputProps = {
     children: ReactNode,
-    label?: string
+    label?: string,
+    focused?: boolean
 }
 
-const KTextInput = ({children, label}: TextInputProps) => {
+const KTextInput = ({children, label, focused}: TextInputProps) => {
     const colors = useThemeColor();
   return (
-    <View style={[styles.container, {borderColor: colors.gray}]}>
-      <ThemedText style={styles.label} type="caption" color="blackGray">{label}</ThemedText>
-      {/* <ThemedText type="body1" color="black" >{children}</ThemedText> */}
+    <View style={[styles.container,
+                 {borderColor: focused ? colors.focused : colors.gray, 
+                  borderWidth: focused ? 2 : 1}
+                  ]}>
+      {label && <ThemedText style={styles.label} type="caption" color={focused ? "focused" : "blackGray"}>{label}</ThemedText>}
       <TextInput
         style={styles.textInput}
       />
@@ -23,10 +26,9 @@ const KTextInput = ({children, label}: TextInputProps) => {
 
 const styles = StyleSheet.create({
     container: {
-        width: 328,
+        width: "100%",
         height: 48,
         borderRadius: 4,
-        borderWidth: 1,
         justifyContent: "center",
         position: "relative"
     },

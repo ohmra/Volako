@@ -12,9 +12,7 @@ type ThemedTextProps = TextProps & {
 export default function ThemedText({type = "default",style , color, ...rest}: ThemedTextProps){
     const colors = useThemeColor();
   return (
-    <View>
       <Text style={[styles[type], {color: colors[color ?? "lightBlack"] ?? "drakGray"}, style]} {...rest} />
-    </View>
   )
 }
 
