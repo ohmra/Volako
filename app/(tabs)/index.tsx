@@ -7,6 +7,7 @@ import Overview from '../../components/Overview';
 import Icons from '@/constants/Icons'
 import Calendar from '../../components/Calendar';
 import PrimaryButton from '../../components/PrimaryButton';
+import { router } from "expo-router";
 type categoryType = keyof typeof CategoryIcons
 
 type ItemType = {
@@ -75,7 +76,9 @@ export default function Index() {
         <View style={styles.buttonContainer}>
           <PrimaryButton icon={Icons.addPlus} 
                          style={{borderRadius: 44, paddingHorizontal: 20, paddingVertical: 16,
-                                width: 130}}>
+                                width: 130}}
+                          handlePress={() => router.push('/add')}
+          >
             Add new
             </PrimaryButton>
         </View>
