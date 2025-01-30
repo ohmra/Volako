@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, FlatList } from 'react-native'
 import React from 'react'
 import ThemedText from './ThemedText';
 import ListItem from './ListItem';
@@ -24,15 +24,14 @@ const ListGroup = ({items}: ListGroup) => {
         <ThemedText type="title" color="darkGray">Today</ThemedText>
         <ThemedText type="title" color="darkGray">- 1125€</ThemedText>
       </View>
-      <View style={styles.contentContainer}>
-        {items.map((item) => (
-            <ListItem icon={CategoryIcons[item.category]}
-                      category={item.category}
-                      description={item.description}
-                      amount={item.amount}
-                      income={item.income} />
-        ))}
-      </View>
+      <FlatList style={styles.contentContainer} data={items} renderItem={({item}) => 
+          <ListItem icon={CategoryIcons[item.category]}
+          category={item.category}
+          description={item.description}
+          amount={item.amount}
+          income={item.income} />}
+        />
+
     </View>
   )
 }
@@ -44,6 +43,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 8,
         borderColor: "#E0E0E0",
+        height: 275,
+        marginBottom: 12,
+        position: "relative"
     },
     titleContainer: {
         flexDirection: "row",
