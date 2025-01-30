@@ -4,6 +4,6 @@ export default {
     homeFocused: require('../assets/icons/homeFocused.png'),
     reportFocused: require('../assets/icons/reportFocused.png'),
     Balance: require('../assets/icons/Balance.png'),
-    Payments: require('../assets/icons/Payments.png'),
+    Expenses: require('../assets/icons/Expenses.png'),
     Income: require('../assets/icons/Income.png'),
   };
