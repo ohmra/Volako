@@ -9,4 +9,5 @@ export default {
     Logo: require('../assets/icons/Logo.png'),
     LeftArrow: require('../assets/icons/LeftArrow.png'),
     RightArrow: require('../assets/icons/RightArrow.png'),
+    calendar: require('../assets/icons/calendar.png'),
   };
