@@ -10,7 +10,8 @@ export const Colors = {
         lightBlack: "#212121", 
         gray: "#9E9E9E",
         black: "#212121",
-        blackGray: "#616161"
+        blackGray: "#616161",
+        white: "#fff"
     },
     dark: {
         lightGray: "#F5F5F5",
@@ -23,6 +24,7 @@ export const Colors = {
         lightBlack: "#212121",
         gray: "#9E9E9E",
         black: "#212121",
-        blackGray: "#616161"
+        blackGray: "#616161",
+        white: "#fff"
     }
 }
