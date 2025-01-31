@@ -25,44 +25,64 @@ const data = [
 type categoryType = keyof typeof CategoryIcons
 
 type ItemType = {
-    category: categoryType,
-    description: string,
-    amount: number,
-    income: boolean
+  icon: categoryType,
+  category: string,
+  description: string,
+  amount: number,
+  income: boolean
 }
 
 const items: ItemType[] = [
-  {
-    category: "Cafe",
-    description: "Cafe with mom",
-    amount: 400,
-    income: false
-  },
-  {
-    category: "Groceries",
-    description: "Voanjobory tsaramaso",
-    amount: 250,
-    income: false
-  },
-  {
-    category: "Savings",
-    description: "Karama eoah",
-    amount: 1000,
-    income: true
-  },
-  {
-    category: "Savings",
-    description: "Karama eoah",
-    amount: 1000,
-    income: true
-  },
-  {
-    category: "Savings",
-    description: "Karama eoah",
-    amount: 1000,
-    income: true
-  }
-  ]
+{
+  icon: "Cafe",
+  category: "Cafe",
+  description: "Cafe with mom",
+  amount: 400,
+  income: false
+},
+{
+  icon: "Groceries",
+  category: "Groceries",
+  description: "Voanjobory tsaramaso",
+  amount: 250,
+  income: false
+},
+{
+  icon: "Savings",
+  category: "Savings",
+  description: "Karama eoah",
+  amount: 1000,
+  income: true
+},
+{
+  icon: "Savings",
+  category: "Savings",
+  description: "Karama eoah",
+  amount: 1000,
+  income: true
+},
+{
+  icon: "Savings",
+  category: "Savings",
+  description: "Karama eoah",
+  amount: 1000,
+  income: true
+},
+{
+  icon: "Savings",
+  category: "Savings",
+  description: "Karama eoah",
+  amount: 1000,
+  income: true
+},
+{
+  icon: "Savings",
+  category: "Savings",
+  description: "Karama eoah",
+  amount: 1000,
+  income: true
+},
+]
 
 export default function Index() {
   return (
