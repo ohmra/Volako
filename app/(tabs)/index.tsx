@@ -11,7 +11,8 @@ import { router } from "expo-router";
 type categoryType = keyof typeof CategoryIcons
 
 type ItemType = {
-    category: categoryType,
+    icon: categoryType,
+    category: string,
     description: string,
     amount: number,
     income: boolean
@@ -19,42 +20,49 @@ type ItemType = {
 
 const items: ItemType[] = [
   {
+    icon: "Cafe",
     category: "Cafe",
     description: "Cafe with mom",
     amount: 400,
     income: false
   },
   {
+    icon: "Groceries",
     category: "Groceries",
     description: "Voanjobory tsaramaso",
     amount: 250,
     income: false
   },
   {
+    icon: "Savings",
     category: "Savings",
     description: "Karama eoah",
     amount: 1000,
     income: true
   },
   {
+    icon: "Savings",
     category: "Savings",
     description: "Karama eoah",
     amount: 1000,
     income: true
   },
   {
+    icon: "Savings",
     category: "Savings",
     description: "Karama eoah",
     amount: 1000,
     income: true
   },
   {
+    icon: "Savings",
     category: "Savings",
     description: "Karama eoah",
     amount: 1000,
     income: true
   },
   {
+    icon: "Savings",
     category: "Savings",
     description: "Karama eoah",
     amount: 1000,
