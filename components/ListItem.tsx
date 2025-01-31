@@ -11,7 +11,6 @@ type ListItemType = {
 }
 
 const ListItem = ({icon, income=false, category, description, amount }: ListItemType) => {
-  console.log(icon);
   return (
     <View style={styles.container}>
       <Image style={styles.icon}
