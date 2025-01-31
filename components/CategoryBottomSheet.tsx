@@ -1,7 +1,7 @@
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import BottomSheet, { BottomSheetFlatList, BottomSheetView } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetBackdrop, BottomSheetFlatList, BottomSheetView } from '@gorhom/bottom-sheet';
 import ThemedText from './ThemedText';
 import CategoryIcons from '@/constants/CategoryIcons';
 
@@ -30,26 +30,47 @@ const categories: Array<itemType> = [
   { label: 'Maintenance', icon: 'Maintenance' },
   { label: 'Party', icon: 'Party' },
   { label: 'Restaurant', icon: 'Restaurant' },
-  { label: 'SelfDevelopment', icon: 'SelfDevelopment' },
+  { label: 'Self Dev', icon: 'SelfDevelopment' },
   { label: 'Sport', icon: 'Sport' },
   { label: 'Transportation', icon: 'Transportation' },
 ];
 
-const CategoryBottomSheets = () => {
+type categoryBottomSheetType = {
+  showCategory: boolean,
+  setShowCategory: (arg: boolean) => void
+}
+
+const CategoryBottomSheet = ({showCategory, setShowCategory}: categoryBottomSheetType) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
+  useEffect(() => {
+    if (showCategory) {
+      bottomSheetRef.current?.snapToIndex(0);
+    } else {
+      bottomSheetRef.current?.close();
+    }
+  }, [showCategory]);
 
   return (
     <GestureHandlerRootView style={styles.container}>
       <BottomSheet
         ref={bottomSheetRef}
         backgroundStyle={styles.bottomSheet}
-        snapPoints={[200, "100%"]}
+        snapPoints={[300]}
+        onClose={() => setShowCategory(false)}
+        backdropComponent={(props) => (
+          <BottomSheetBackdrop
+            {...props}
+            disappearsOnIndex={-1}  
+            appearsOnIndex={0}
+            pressBehavior="close"
+            opacity={0.2}
+          />
+        )}
       >
         <ThemedText type="title" color="darkGray" style={styles.titleText}>
           CHOOSE CATEGORY
         </ThemedText>
 
-        {/* Use BottomSheetFlatList for scrollable content */}
         <BottomSheetFlatList
           data={categories}
           numColumns={3}
@@ -69,8 +90,13 @@ const CategoryBottomSheets = () => {
 
 const styles = StyleSheet.create({
   container: {
+    position: 'absolute',  // Ensure the bottom sheet takes the full screen
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     flex: 1,
-    backgroundColor: 'grey',
+    zIndex: 10
   },
   bottomSheet: {
     backgroundColor: '#FAFAFA',
@@ -99,4 +125,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CategoryBottomSheets;
+export default CategoryBottomSheet;

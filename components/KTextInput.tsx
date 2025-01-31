@@ -6,10 +6,20 @@ import ThemedText from "@/components/ThemedText";
 type TextInputProps = {
     children: ReactNode,
     label?: string,
-    focused?: boolean
+    focused?: boolean,
+    readOnly?: boolean,
+    placeholder?: string,
+    keyboardType?: 
+    | "default"
+    | "number-pad"
+    | "decimal-pad"
+    | "numeric"
+    | "email-address"
+    | "phone-pad"
+    | "url"
 }
 
-const KTextInput = ({children, label, focused}: TextInputProps) => {
+const KTextInput = ({children, label, focused, readOnly=false, placeholder, keyboardType="default"}: TextInputProps) => {
     const colors = useThemeColor();
   return (
     <View style={[styles.container,
@@ -18,7 +28,11 @@ const KTextInput = ({children, label, focused}: TextInputProps) => {
                   ]}>
       {label && <ThemedText style={styles.label} type="caption" color={focused ? "focused" : "blackGray"}>{label}</ThemedText>}
       <TextInput
+        placeholderTextColor={"#616161"}
+        placeholder={placeholder}
         style={styles.textInput}
+        readOnly={readOnly}
+        keyboardType={keyboardType}
       />
     </View>
   )
@@ -30,7 +44,8 @@ const styles = StyleSheet.create({
         height: 48,
         borderRadius: 4,
         justifyContent: "center",
-        position: "relative"
+        position: "relative",
+        marginBottom: 24,
     },
     label: {
         position: "absolute",

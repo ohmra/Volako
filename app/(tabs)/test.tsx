@@ -10,7 +10,6 @@ const test = () => {
       <TouchableOpacity style={styles.touchable}>
         <Text>ok</Text>
       </TouchableOpacity>
-      <CategoryBottomSheet />
     </>
   );
 };
