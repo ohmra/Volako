@@ -7,7 +7,8 @@ import CategoryIcons from '@/constants/CategoryIcons';
 type categoryType = keyof typeof CategoryIcons
 
 type ItemType = {
-    category: categoryType,
+    icon: categoryType
+    category: string,
     description: string,
     amount: number,
     income: boolean
@@ -25,7 +26,7 @@ const ListGroup = ({items}: ListGroup) => {
         <ThemedText type="title" color="darkGray">- 1125€</ThemedText>
       </View>
       <FlatList style={styles.contentContainer} data={items} renderItem={({item}) => 
-          <ListItem icon={CategoryIcons[item.category]}
+          <ListItem icon={CategoryIcons[item.icon]}
           category={item.category}
           description={item.description}
           amount={item.amount}
