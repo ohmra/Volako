@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { Dropdown } from 'react-native-element-dropdown';
 import { useThemeColor } from '@/hooks/useThemeColor';
 
@@ -10,22 +10,25 @@ type dropdownType = {
 
 type KdropdownType = {
     data: Array<dropdownType>,
-    focused?: boolean
+    handleChange: (field: string, value: string) => void
 }
 
-const KDropdown = ({data, focused=false}: KdropdownType) => {
+const KDropdown = ({data, handleChange}: KdropdownType) => {
     const colors = useThemeColor();
+    const [focused, setFocused] = useState(false);
   return (
     <Dropdown style={[styles.dropdown, 
         {borderColor: focused ? colors.focused : colors.gray, 
         borderWidth: focused ? 2 : 1}]}
           data={data}
+          placeholder="Select transaction type"
           labelField="label"
           valueField="value"
           placeholderStyle={styles.textStyle}
           selectedTextStyle={styles.textStyle}
-          onChange={item => {
-          }}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          onChange={(v) => {handleChange('transactionType', v.value)}}
     />
   )
 }

@@ -37,10 +37,11 @@ const categories: Array<itemType> = [
 
 type categoryBottomSheetType = {
   showCategory: boolean,
-  setShowCategory: (arg: boolean) => void
+  setShowCategory: (arg: boolean) => void,
+  handleInputChange: (field: string, value: string) => void
 }
 
-const CategoryBottomSheet = ({showCategory, setShowCategory}: categoryBottomSheetType) => {
+const CategoryBottomSheet = ({showCategory, setShowCategory, handleInputChange}: categoryBottomSheetType) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   useEffect(() => {
     if (showCategory) {
@@ -49,6 +50,12 @@ const CategoryBottomSheet = ({showCategory, setShowCategory}: categoryBottomShee
       bottomSheetRef.current?.close();
     }
   }, [showCategory]);
+
+  const onChooseCategory = (item: itemType) => {
+    handleInputChange("category", item.label);
+    handleInputChange("icon", item.icon);
+    bottomSheetRef.current?.close();
+  }
 
   return (
     <GestureHandlerRootView style={styles.container}>
@@ -77,7 +84,8 @@ const CategoryBottomSheet = ({showCategory, setShowCategory}: categoryBottomShee
           contentContainerStyle={styles.listContainer}
           columnWrapperStyle={styles.gridGap}
           renderItem={({ item }: { item: itemType }) => (
-            <TouchableOpacity style={styles.categoryContainer}>
+            <TouchableOpacity style={styles.categoryContainer} 
+                              onPress={() => onChooseCategory(item)}>
               <Image source={CategoryIcons[item.icon]} style={styles.icon} />
               <ThemedText>{item.label}</ThemedText>
             </TouchableOpacity>

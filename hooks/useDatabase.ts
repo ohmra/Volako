@@ -31,7 +31,7 @@ export async function useDatabase() {
   // Create function to insert data into the transactions table
   const create = async (
     amount: number,
-    icon: string,
+    icon: categoryType,
     category: string,
     income: boolean,
     description: string
@@ -82,6 +82,26 @@ export async function useDatabase() {
         }
     }
 
+    // Function to get today's transactions
+    const getTodaysTransactions = async () => {
+      const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+      
+      const statement = await db.prepareAsync(`
+        SELECT * FROM transactions WHERE created_at LIKE '${today}%'
+      `);
+      
+      try {
+        const result = await statement.executeAsync();
+        const rows = await result.getAllAsync();
+        return convertDataToTransaction(rows);
+      } catch (e) {
+        console.error('Error retrieving today\'s transactions:', e);
+        return [];
+      } finally {
+        await statement.finalizeAsync(); // Always finalize the statement
+      }
+    };
+
     const convertDataToTransaction = (data: any) => {
         const transactions: Transaction[] = data.map((row: any) => ({
             id: row.id,
@@ -96,5 +116,5 @@ export async function useDatabase() {
           return transactions;
     }
 
-  return {create, getAll};
+  return {create, getAll, getTodaysTransactions};
 }

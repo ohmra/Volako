@@ -1,12 +1,10 @@
-import { View, Text, TextInput, StyleSheet } from 'react-native'
-import React, { ReactNode } from 'react'
+import { View, TextInput, StyleSheet, TextInputProps } from 'react-native'
+import React, { useState } from 'react'
 import { useThemeColor } from '../hooks/useThemeColor';
 import ThemedText from "@/components/ThemedText";
 
-type TextInputProps = {
-    children: ReactNode,
+type KTextInputProps = TextInputProps & {
     label?: string,
-    focused?: boolean,
     readOnly?: boolean,
     placeholder?: string,
     keyboardType?: 
@@ -16,23 +14,28 @@ type TextInputProps = {
     | "numeric"
     | "email-address"
     | "phone-pad"
-    | "url"
+    | "url",
+    focus?: boolean
 }
 
-const KTextInput = ({children, label, focused, readOnly=false, placeholder, keyboardType="default"}: TextInputProps) => {
+const KTextInput = ({label, readOnly=false, focus=false, placeholder, keyboardType="default", ...rest}: KTextInputProps) => {
     const colors = useThemeColor();
+    const [focused, setFocused] = useState(false);
   return (
     <View style={[styles.container,
-                 {borderColor: focused ? colors.focused : colors.gray, 
-                  borderWidth: focused ? 2 : 1}
+                 {borderColor: (focused || focus) ? colors.focused : colors.gray, 
+                  borderWidth: (focused || focus) ? 2 : 1}
                   ]}>
-      {label && <ThemedText style={styles.label} type="caption" color={focused ? "focused" : "blackGray"}>{label}</ThemedText>}
+      {label && <ThemedText style={styles.label} type="caption" color={(focused || focus) ? "focused" : "blackGray"}>{label}</ThemedText>}
       <TextInput
         placeholderTextColor={"#616161"}
         placeholder={placeholder}
         style={styles.textInput}
-        readOnly={readOnly}
+        editable={!readOnly}
         keyboardType={keyboardType}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        {...rest}
       />
     </View>
   )

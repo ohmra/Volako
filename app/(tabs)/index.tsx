@@ -10,6 +10,7 @@ import PrimaryButton from '../../components/PrimaryButton';
 import { router } from "expo-router";
 import { useDatabase } from "@/hooks/useDatabase";
 import { useEffect, useState } from "react";
+import Toast from 'react-native-toast-message';
 type categoryType = keyof typeof CategoryIcons
 
 type ItemType = {
@@ -20,65 +21,13 @@ type ItemType = {
     income: boolean
 }
 
-const items: ItemType[] = [
-  {
-    icon: "Cafe",
-    category: "Cafe",
-    description: "Cafe with mom",
-    amount: 400,
-    income: false
-  },
-  {
-    icon: "Groceries",
-    category: "Groceries",
-    description: "Voanjobory tsaramaso",
-    amount: 250,
-    income: false
-  },
-  {
-    icon: "Savings",
-    category: "Savings",
-    description: "Karama eoah",
-    amount: 1000,
-    income: true
-  },
-  {
-    icon: "Savings",
-    category: "Savings",
-    description: "Karama eoah",
-    amount: 1000,
-    income: true
-  },
-  {
-    icon: "Savings",
-    category: "Savings",
-    description: "Karama eoah",
-    amount: 1000,
-    income: true
-  },
-  {
-    icon: "Savings",
-    category: "Savings",
-    description: "Karama eoah",
-    amount: 1000,
-    income: true
-  },
-  {
-    icon: "Savings",
-    category: "Savings",
-    description: "Karama eoah",
-    amount: 1000,
-    income: true
-  },
-  ]
-
 export default function Index() {
-  const [transactions, setTransactions] = useState<ItemType[]>([])
+  const [todaysTransactions, setTodaysTransactions] = useState<ItemType[]>([])
   useEffect(() => {
     const fetchData = async () => {
       const db = await useDatabase(); // Wait for the database to be set up
-      //await db.create(100, "Cafe", "Cafe", true, "Hehe");
-      const tx = await db.getAll(); // Fetch all data
+      // await db.create(1200, "Institute", "frais", false, "Not hehe");
+      const tx = await db.getTodaysTransactions(); // Fetch all data
       const data: ItemType[] = tx ? tx.map((t) => ({
           icon: t.icon,
           category: t.category,
@@ -86,7 +35,7 @@ export default function Index() {
           amount: t.amount,
           income: t.income        
         })) : []
-      setTransactions(data);
+        setTodaysTransactions(data);
     };
 
     fetchData();
@@ -99,8 +48,8 @@ export default function Index() {
         </View>
         <Calendar />
         <Overview />
-        <ListGroup items={items}/>
-        <ListGroup items={transactions}/>
+        <ListGroup title="TODAY" total="+1500" items={todaysTransactions}/>
+        <ListGroup title="YESTERDAY" total="-1500" items={[]}/>
         <View style={styles.buttonContainer}>
           <PrimaryButton icon={Icons.addPlus} 
                          style={{borderRadius: 44, paddingHorizontal: 20, paddingVertical: 16,
@@ -110,6 +59,7 @@ export default function Index() {
             Add new
             </PrimaryButton>
         </View>
+        <Toast />
     </SafeAreaView>
   );
 }

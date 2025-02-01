@@ -15,15 +15,17 @@ type ItemType = {
 }
 
 type ListGroup = {
-    items: Array<ItemType>
+    items: Array<ItemType>,
+    title: string,
+    total: string
 }
 
-const ListGroup = ({items}: ListGroup) => {
+const ListGroup = ({items, title, total}: ListGroup) => {
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <ThemedText type="title" color="darkGray">Today</ThemedText>
-        <ThemedText type="title" color="darkGray">- 1125€</ThemedText>
+        <ThemedText type="title" color="darkGray">{title}</ThemedText>
+        <ThemedText type="title" color="darkGray">{total}€</ThemedText>
       </View>
       <FlatList style={styles.contentContainer} data={items} renderItem={({item}) => 
           <ListItem icon={CategoryIcons[item.icon]}
