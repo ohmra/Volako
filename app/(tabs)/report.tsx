@@ -1,101 +1,53 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import ThemedText from "@/components/ThemedText";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StatusBar } from 'expo-status-bar';
-import KTextInput from '../../components/KTextInput';
+import Overview from '../../components/Overview';
+import Icons from '@/constants/Icons'
+import Calendar from '../../components/Calendar';
 import CategoryIcons from '@/constants/CategoryIcons'
-import ListItem from '../../components/ListItem';
-import ListGroup from '../../components/ListGroup';
-import Overview from '../../components/Overview'
-import KDropdown from '../../components/KDropdown'
-import PrimaryButton from '../../components/PrimaryButton';
-
-
-const data = [
-  { label: 'Item 1', value: '1' },
-  { label: 'Item 2', value: '2' },
-  { label: 'Item 3', value: '3' },
-  { label: 'Item 4', value: '4' },
-  { label: 'Item 5', value: '5' },
-  { label: 'Item 6', value: '6' },
-  { label: 'Item 7', value: '7' },
-  { label: 'Item 8', value: '8' },
-];
+import { useEffect, useState } from "react";
+import { useDatabase } from "@/hooks/useDatabase";
+import ListGroupMonthly from '../../components/ListGroupMonthly';
 
 type categoryType = keyof typeof CategoryIcons
 
-type ItemType = {
-  icon: categoryType,
-  category: string,
-  description: string,
-  amount: number,
-  income: boolean
-}
+type Transaction = {
+  id: number;
+  amount: number;
+  icon: categoryType;
+  category: string;
+  income: boolean;
+  description: string;
+  created_at: string;
+};
 
-const items: ItemType[] = [
-{
-  icon: "Cafe",
-  category: "Cafe",
-  description: "Cafe with mom",
-  amount: 400,
-  income: false
-},
-{
-  icon: "Groceries",
-  category: "Groceries",
-  description: "Voanjobory tsaramaso",
-  amount: 250,
-  income: false
-},
-{
-  icon: "Savings",
-  category: "Savings",
-  description: "Karama eoah",
-  amount: 1000,
-  income: true
-},
-{
-  icon: "Savings",
-  category: "Savings",
-  description: "Karama eoah",
-  amount: 1000,
-  income: true
-},
-{
-  icon: "Savings",
-  category: "Savings",
-  description: "Karama eoah",
-  amount: 1000,
-  income: true
-},
-{
-  icon: "Savings",
-  category: "Savings",
-  description: "Karama eoah",
-  amount: 1000,
-  income: true
-},
-{
-  icon: "Savings",
-  category: "Savings",
-  description: "Karama eoah",
-  amount: 1000,
-  income: true
-},
-]
+const months = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'
+];
 
-export default function Index() {
+export default function Report() {
+
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [fullTransactionData, setFullTransactionData] = useState<Transaction[]>([]);
+
+  const fetchData = async () => {
+    const tx = await (await useDatabase()).getTransactionByMonth(currentDate.getMonth()+1, currentDate.getFullYear());
+    setFullTransactionData(tx);
+  }
+  useEffect(() => {
+
+    fetchData();
+  }, [currentDate]);
   return (
     <SafeAreaView style={styles.container}>
-      <ThemedText type="header" color="focused">yes</ThemedText> 
-      <StatusBar backgroundColor="rgba(33, 33, 33, 0.18)" />
-      <KTextInput label="Category name">Groceries</KTextInput>
-      <KTextInput label="Category name" focused>Groceries</KTextInput>
-      <ListItem icon={CategoryIcons.Cafe} category="Cafe" description="Eggs & Veggies" amount={800}/>
-      <ListGroup items={items}/>
-      <Overview />
-      <PrimaryButton icon={CategoryIcons.Cafe} style={{width: 200}}>OK</PrimaryButton>
-      <KDropdown data={data}  />
+        <View style={styles.header}>
+          <Image source={Icons.Logo}/>
+          <ThemedText type="header" color="darkGray">Kitty</ThemedText>
+        </View>
+        <Calendar currentDate={currentDate} setCurrentDate={setCurrentDate}/>
+        <Overview currentDate={currentDate}/>
+        <ListGroupMonthly items={fullTransactionData} title={months[currentDate.getMonth()]} />
     </SafeAreaView>
   );
 }
@@ -104,6 +56,20 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    paddingHorizontal: 16,
+    width: "100%"
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    height: 48,
+  },
+  buttonContainer: {
+    position: "absolute",
+    width: 130,
+    bottom: 24,
+    left: "50%",
+    transform: [{ translateX: -49 }],
   }
 })

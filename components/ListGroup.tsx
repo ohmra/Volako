@@ -22,6 +22,7 @@ type ListGroup = {
 
 const ListGroup = ({items, title}: ListGroup) => {
   const total = useTransaction(items).getTotal();
+  
 
   return (
     <View style={styles.container}>

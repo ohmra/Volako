@@ -26,33 +26,32 @@ export default function Index() {
   const [yesterdayTransactions, setYesterdayTransactions] = useState<ItemType[]>([]);
   const [currentDate, setCurrentDate] = useState(new Date());
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const db = await useDatabase(); // Wait for the database to be set up
-      // await db.create(1200, "Institute", "frais", false, "Not hehe");
-      const todayTx = await db.getTodayTransactions(); // Fetch all data
-      const today: ItemType[] = todayTx ? todayTx.map((t) => ({
-          icon: t.icon,
-          category: t.category,
-          description: t.description,
-          amount: t.amount,
-          income: t.income        
-        })) : []
-      
-      const yesterdayTx = await db.getYesterdayTransactions();
-      const yesterday: ItemType[] = yesterdayTx ? yesterdayTx.map((t) => ({
+  const fetchData = async () => {
+    const db = await useDatabase(); // Wait for the database to be set up
+    const todayTx = await db.getTodayTransactions(); // Fetch all data
+    const today: ItemType[] = todayTx ? todayTx.map((t) => ({
         icon: t.icon,
         category: t.category,
         description: t.description,
         amount: t.amount,
         income: t.income        
       })) : []
+    
+    const yesterdayTx = await db.getYesterdayTransactions();
+    const yesterday: ItemType[] = yesterdayTx ? yesterdayTx.map((t) => ({
+      icon: t.icon,
+      category: t.category,
+      description: t.description,
+      amount: t.amount,
+      income: t.income        
+    })) : []
 
-        setTodayTransactions(today);
-        setYesterdayTransactions(yesterday);
-    };
+      setTodayTransactions(today);
+      setYesterdayTransactions(yesterday);
+  };
 
-    fetchData();
+  useEffect(() => {
+        fetchData();
   }, []);
   return (
     <SafeAreaView style={styles.container}>

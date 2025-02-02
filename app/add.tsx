@@ -34,7 +34,6 @@ const Add = () => {
 
   // Submission handler
   const handleSubmit = async () => {
-    console.log('Data to submit:', data);
     if(validations(data)){
       console.log('sumbimted data success');
       const db = await useDatabase();
@@ -48,7 +47,7 @@ const Add = () => {
         text1: 'Transaction added successfuly',
         visibilityTime: 1500
       });
-      router.navigate("/(tabs)");
+      router.replace('/(tabs)');
     }
   };
 
