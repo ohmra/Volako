@@ -5,10 +5,10 @@ import KDropdown from '../components/KDropdown';
 import KTextInput from '../components/KTextInput';
 import CategoryBottomSheet from '../components/CategoryBottomSheet';
 import PrimaryButton from '../components/PrimaryButton';
-import { router } from "expo-router";
-import Toast from 'react-native-toast-message';
+import { router, useNavigation  } from "expo-router";
 import { useDatabase } from '@/hooks/useDatabase';
 import CategoryIcons from '@/constants/CategoryIcons';
+import { CommonActions } from '@react-navigation/native'
 
 const dataDropdown = [
   {label: "Expense", value: "expense"},
@@ -31,6 +31,7 @@ const Add = () => {
       [field]: value,
     }));
   };
+  const navigation = useNavigation();
 
   // Submission handler
   const handleSubmit = async () => {
@@ -42,12 +43,39 @@ const Add = () => {
                       data.category, 
                       data.transactionType === "income", 
                       data.description);
-      Toast.show({
-        type: 'success',
-        text1: 'Transaction added successfuly',
-        visibilityTime: 1500
-      });
-      router.replace('/(tabs)');
+      // Toast.show({
+      //   type: 'success',
+      //   text1: 'Transaction added successfuly',
+      //   visibilityTime: 1500
+      // });
+      // router.back();
+      // console.log("this is after router back");
+      // setTimeout(() => {
+      //   router.replace('/(tabs)');
+      //   console.log("this is after router replace");
+      // }, 1600);
+      const keyTabs = `(tabs)-${Date.now()}`;
+      const keyIndex = `index-${Date.now()}`;
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [
+            {
+              key: keyTabs,
+              name: '(tabs)', // Your tab navigator
+              state: {
+                routes: [
+                  {
+                    key: keyIndex,
+                    name: 'index', // Specific screen in the tab navigator
+                    params: { showToast: 'true' } // <-- Params go here
+                  }
+                ]
+              }
+            }
+          ]
+        })
+      );
     }
   };
 
