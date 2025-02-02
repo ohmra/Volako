@@ -7,10 +7,12 @@ import Overview from '../../components/Overview';
 import Icons from '@/constants/Icons'
 import Calendar from '../../components/Calendar';
 import PrimaryButton from '../../components/PrimaryButton';
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useDatabase } from "@/hooks/useDatabase";
 import { useEffect, useState } from "react";
 import Toast from 'react-native-toast-message';
+
+
 type categoryType = keyof typeof CategoryIcons
 
 type ItemType = {
@@ -25,7 +27,8 @@ export default function Index() {
   const [todayTransactions, setTodayTransactions] = useState<ItemType[]>([]);
   const [yesterdayTransactions, setYesterdayTransactions] = useState<ItemType[]>([]);
   const [currentDate, setCurrentDate] = useState(new Date());
-
+  const { showToast } = useLocalSearchParams();
+  console.log("date : ", (new Date()).toISOString());
   const fetchData = async () => {
     const db = await useDatabase(); // Wait for the database to be set up
     const todayTx = await db.getTodayTransactions(); // Fetch all data
@@ -49,9 +52,15 @@ export default function Index() {
       setTodayTransactions(today);
       setYesterdayTransactions(yesterday);
   };
-
   useEffect(() => {
-        fetchData();
+    if (showToast === 'true') {
+      Toast.show({
+        type: 'success',
+        text1: 'Transaction added successfully',
+        visibilityTime: 1500
+      });
+    }
+    fetchData();
   }, []);
   return (
     <SafeAreaView style={styles.container}>
