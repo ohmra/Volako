@@ -6,13 +6,11 @@ import { useDatabase } from '@/hooks/useDatabase';
 import { useTransaction } from '../hooks/useTransaction';
 
 const Overview = ({currentDate}: {currentDate: Date}) => {
-  console.log("the current date from overview ", currentDate);
   const [expense, setExpense] = useState(0);
   const [income, setIncome] = useState(0);
   useEffect(() => {
     const fetchData = async () => {
       const transactions = await (await useDatabase()).getTransactionByMonth(currentDate.getMonth()+1, currentDate.getFullYear());
-      console.log(transactions);
       const totals = useTransaction(transactions).getIncomeExpense();
       setIncome(totals[0]);
       setExpense(totals[1]);
