@@ -22,20 +22,32 @@ type ItemType = {
 }
 
 export default function Index() {
-  const [todaysTransactions, setTodaysTransactions] = useState<ItemType[]>([])
+  const [todayTransactions, setTodayTransactions] = useState<ItemType[]>([])
+  const [yesterdayTransactions, setYesterdayTransactions] = useState<ItemType[]>([])
   useEffect(() => {
     const fetchData = async () => {
       const db = await useDatabase(); // Wait for the database to be set up
       // await db.create(1200, "Institute", "frais", false, "Not hehe");
-      const tx = await db.getTodaysTransactions(); // Fetch all data
-      const data: ItemType[] = tx ? tx.map((t) => ({
+      const todayTx = await db.getTodayTransactions(); // Fetch all data
+      const today: ItemType[] = todayTx ? todayTx.map((t) => ({
           icon: t.icon,
           category: t.category,
           description: t.description,
           amount: t.amount,
           income: t.income        
         })) : []
-        setTodaysTransactions(data);
+      
+      const yesterdayTx = await db.getYesterdayTransactions();
+      const yesterday: ItemType[] = yesterdayTx ? yesterdayTx.map((t) => ({
+        icon: t.icon,
+        category: t.category,
+        description: t.description,
+        amount: t.amount,
+        income: t.income        
+      })) : []
+
+        setTodayTransactions(today);
+        setYesterdayTransactions(yesterday);
     };
 
     fetchData();
@@ -48,8 +60,8 @@ export default function Index() {
         </View>
         <Calendar />
         <Overview />
-        <ListGroup title="TODAY" total="+1500" items={todaysTransactions}/>
-        <ListGroup title="YESTERDAY" total="-1500" items={[]}/>
+        <ListGroup title="TODAY" items={todayTransactions}/>
+        <ListGroup title="YESTERDAY" items={yesterdayTransactions}/>
         <View style={styles.buttonContainer}>
           <PrimaryButton icon={Icons.addPlus} 
                          style={{borderRadius: 44, paddingHorizontal: 20, paddingVertical: 16,

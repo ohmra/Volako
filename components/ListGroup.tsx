@@ -3,6 +3,7 @@ import React from 'react'
 import ThemedText from './ThemedText';
 import ListItem from './ListItem';
 import CategoryIcons from '@/constants/CategoryIcons';
+import { useTransaction } from '../hooks/useTransaction';
 
 type categoryType = keyof typeof CategoryIcons
 
@@ -17,10 +18,11 @@ type ItemType = {
 type ListGroup = {
     items: Array<ItemType>,
     title: string,
-    total: string
 }
 
-const ListGroup = ({items, title, total}: ListGroup) => {
+const ListGroup = ({items, title}: ListGroup) => {
+  const total = useTransaction(items).getTotal();
+
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
