@@ -46,6 +46,7 @@ export async function useDatabase() {
         
         try {
             const createdAt = new Date().toISOString(); // Use ISO format for datetime
+            console.log("created_at at creation: ", createdAt);
             const incomeValue = income ? 1 : 0; // Store boolean as 1 or 0
             
             let result = await statement.executeAsync({
