@@ -8,8 +8,12 @@ const months = [
   'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
-const Calendar = () => {
-  const [currentDate, setCurrentDate] = useState(new Date());
+type CalendarType = {
+  currentDate: Date,
+  setCurrentDate: (arg: Date) => void
+}
+
+const Calendar = ({currentDate, setCurrentDate}: CalendarType) => {
   const [showMonthPicker, setShowMonthPicker] = useState(false);
 
   const handleMonthChange = (monthIndex: number) => {

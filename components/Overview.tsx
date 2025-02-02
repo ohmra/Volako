@@ -1,13 +1,32 @@
 import { View, Image, StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ThemedText from './ThemedText';
 import Icons from '@/constants/Icons'
-const Overview = () => {
+import { useDatabase } from '@/hooks/useDatabase';
+import { useTransaction } from '../hooks/useTransaction';
+
+const Overview = ({currentDate}: {currentDate: Date}) => {
+  console.log("the current date from overview ", currentDate);
+  const [expense, setExpense] = useState(0);
+  const [income, setIncome] = useState(0);
+  useEffect(() => {
+    const fetchData = async () => {
+      const transactions = await (await useDatabase()).getTransactionByMonth(currentDate.getMonth()+1, currentDate.getFullYear());
+      console.log(transactions);
+      const totals = useTransaction(transactions).getIncomeExpense();
+      setIncome(totals[0]);
+      setExpense(totals[1]);
+    }
+    fetchData();
+  }, [currentDate])
+  
+  
+
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
         <Image source={Icons.Expenses} style={styles.icon}/>
-        <ThemedText type="body2" color="red">12000€</ThemedText>
+        <ThemedText type="body2" color="red">{expense}€</ThemedText>
         <ThemedText type="caption" color="blackGray">Expenses</ThemedText>
       </View>
       <View style={styles.contentContainer}>
@@ -17,7 +36,7 @@ const Overview = () => {
       </View>
       <View style={styles.contentContainer}>
         <Image source={Icons.Income} style={styles.icon}/>
-        <ThemedText type="body2" color="black">2000€</ThemedText>
+        <ThemedText type="body2" color="black">{income}€</ThemedText>
         <ThemedText type="caption" color="blackGray">Income</ThemedText>
       </View>
     </View>

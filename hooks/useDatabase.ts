@@ -125,6 +125,28 @@ export async function useDatabase() {
       }
     };
 
+    const getTransactionByMonth = async (month: number, year: number) => {
+      const statement = await db.prepareAsync(`
+        SELECT * FROM transactions 
+        WHERE strftime('%m', created_at) = $month 
+        AND strftime('%Y', created_at) = $year
+      `);
+    
+      try {
+        const result = await statement.executeAsync({
+          $month: month.toString().padStart(2, '0'), // Pad month to always have two digits
+          $year: year.toString()
+        });
+        const rows = await result.getAllAsync();
+        return convertDataToTransaction(rows);
+      } catch (e) {
+        console.error('Error retrieving data by month:', e);
+        return [];
+      } finally {
+        await statement.finalizeAsync(); // Always finalize the statement
+      }
+    };
+
     const convertDataToTransaction = (data: any) => {
         const transactions: Transaction[] = data.map((row: any) => ({
             id: row.id,
@@ -139,5 +161,5 @@ export async function useDatabase() {
           return transactions;
     }
 
-  return {create, getAll, getTodayTransactions, getYesterdayTransactions};
+  return {create, getAll, getTodayTransactions, getYesterdayTransactions, getTransactionByMonth};
 }

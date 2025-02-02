@@ -18,5 +18,16 @@ export function useTransaction(data: Array<ItemType>) {
         }
         return total;
     }
-    return { getTotal }
+    const getIncomeExpense = () => {
+        let income = 0;
+        let expense = 0;
+        for(const item of data){
+            if(item.income)
+                income = income + item.amount;
+            else
+                expense = expense + item.amount;
+        }
+        return [income, expense];
+    }
+    return { getTotal, getIncomeExpense }
 }

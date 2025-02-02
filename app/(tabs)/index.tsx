@@ -22,8 +22,10 @@ type ItemType = {
 }
 
 export default function Index() {
-  const [todayTransactions, setTodayTransactions] = useState<ItemType[]>([])
-  const [yesterdayTransactions, setYesterdayTransactions] = useState<ItemType[]>([])
+  const [todayTransactions, setTodayTransactions] = useState<ItemType[]>([]);
+  const [yesterdayTransactions, setYesterdayTransactions] = useState<ItemType[]>([]);
+  const [currentDate, setCurrentDate] = useState(new Date());
+
   useEffect(() => {
     const fetchData = async () => {
       const db = await useDatabase(); // Wait for the database to be set up
@@ -58,8 +60,8 @@ export default function Index() {
           <Image source={Icons.Logo}/>
           <ThemedText type="header" color="darkGray">Kitty</ThemedText>
         </View>
-        <Calendar />
-        <Overview />
+        <Calendar currentDate={currentDate} setCurrentDate={setCurrentDate}/>
+        <Overview currentDate={currentDate}/>
         <ListGroup title="TODAY" items={todayTransactions}/>
         <ListGroup title="YESTERDAY" items={yesterdayTransactions}/>
         <View style={styles.buttonContainer}>
