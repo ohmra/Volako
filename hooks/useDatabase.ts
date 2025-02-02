@@ -87,7 +87,7 @@ export async function useDatabase() {
       const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
       
       const statement = await db.prepareAsync(`
-        SELECT * FROM transactions WHERE created_at LIKE '${today}%'
+        SELECT * FROM transactions WHERE created_at LIKE '${today}%' ORDER BY created_at DESC
       `);
       
       try {
@@ -110,7 +110,7 @@ export async function useDatabase() {
       const yesterdayString = yesterday.toISOString().split('T')[0]; // Get date in YYYY-MM-DD format
       
       const statement = await db.prepareAsync(`
-        SELECT * FROM transactions WHERE created_at LIKE '${yesterdayString}%'
+        SELECT * FROM transactions WHERE created_at LIKE '${yesterdayString}%' ORDER BY created_at DESC
       `);
       
       try {
@@ -130,6 +130,7 @@ export async function useDatabase() {
         SELECT * FROM transactions 
         WHERE strftime('%m', created_at) = $month 
         AND strftime('%Y', created_at) = $year
+        ORDER BY created_at DESC
       `);
     
       try {
@@ -155,7 +156,7 @@ export async function useDatabase() {
             category: row.category,
             income: !!row.income, // Convert 1 or 0 to true/false
             description: row.description,
-            created_at: row.created_at
+            created_at: row.created_at.split('T')[0]
           }));
           
           return transactions;
