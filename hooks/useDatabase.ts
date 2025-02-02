@@ -83,7 +83,7 @@ export async function useDatabase() {
     }
 
     // Function to get today's transactions
-    const getTodaysTransactions = async () => {
+    const getTodayTransactions = async () => {
       const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
       
       const statement = await db.prepareAsync(`
@@ -96,6 +96,29 @@ export async function useDatabase() {
         return convertDataToTransaction(rows);
       } catch (e) {
         console.error('Error retrieving today\'s transactions:', e);
+        return [];
+      } finally {
+        await statement.finalizeAsync(); // Always finalize the statement
+      }
+    };
+
+    // Function to get yesterday's transactions
+    const getYesterdayTransactions = async () => {
+      // Get yesterday's date in YYYY-MM-DD format
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      const yesterdayString = yesterday.toISOString().split('T')[0]; // Get date in YYYY-MM-DD format
+      
+      const statement = await db.prepareAsync(`
+        SELECT * FROM transactions WHERE created_at LIKE '${yesterdayString}%'
+      `);
+      
+      try {
+        const result = await statement.executeAsync();
+        const rows = await result.getAllAsync();
+        return convertDataToTransaction(rows);
+      } catch (e) {
+        console.error('Error retrieving yesterday\'s transactions:', e);
         return [];
       } finally {
         await statement.finalizeAsync(); // Always finalize the statement
@@ -116,5 +139,5 @@ export async function useDatabase() {
           return transactions;
     }
 
-  return {create, getAll, getTodaysTransactions};
+  return {create, getAll, getTodayTransactions, getYesterdayTransactions};
 }
