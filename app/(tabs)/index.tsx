@@ -55,7 +55,7 @@ export default function Index() {
       Toast.show({
         type: 'success',
         text1: 'Transaction added successfully',
-        visibilityTime: 1500
+        visibilityTime: 2000
       });
     }
     fetchData();

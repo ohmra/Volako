@@ -13,5 +13,8 @@ export default function RootLayout() {
         name="statistics"
         options={{ headerShown: false }}
       />
+      <Stack.Screen name="categoryOverview" options={{
+          title: 'Category Overview',
+        }}/>
     </Stack>
 }

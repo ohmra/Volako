@@ -1,9 +1,10 @@
-import { View, FlatList, Image, StyleSheet } from 'react-native'
+import { View, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react'
 import { getTransactionByMonth } from '@/hooks/useDatabase';
 import CategoryIcons from '@/constants/CategoryIcons';
 import ThemedText from './ThemedText';
 import StatGraph from './StatGraph';
+import { router } from 'expo-router';
 
 type categoryType = keyof typeof CategoryIcons
 
@@ -17,13 +18,26 @@ type CategoryStat = {
     icon: categoryType,
 };
 
+type Transaction = {
+    id: number;
+    amount: number;
+    icon: categoryType;
+    category: string;
+    income: boolean;
+    description: string;
+    created_at: string;
+  };
+
 const DetailMonthly = ({date}: DetailMonthlyType) => {
     const [categoryStats, setCategoryStats] = useState({});
     const [totalTxCount, setTotalTxCount] = useState(0);
+    const [transactionByCategory, setTransactionByCategory] = useState<{[key: string]: Transaction[]}>({});
+
     const fetch = async () => {
         const tx = await getTransactionByMonth(date.getMonth()+1, date.getFullYear());
         if(tx){
             const catStat: {[key: string]: CategoryStat} = {};
+            const txByCat: {[key: string]: Transaction[]} = {};
             tx.forEach(t => {
                 const { category, amount } = t;
                 // If the category doesn't exist in the stats object, initialize it
@@ -33,10 +47,16 @@ const DetailMonthly = ({date}: DetailMonthlyType) => {
                 // Increment count and add to total cost
                 catStat[category].count += 1;
                 catStat[category].total = t.income ? catStat[category].total + amount : catStat[category].total - amount;
+                
+                if(!txByCat[category]){
+                    txByCat[category] = [];
+                }
+                txByCat[category].push(t);
             });
             const totalCount = Object.values(catStat).reduce((acc: number, curr) => acc + (curr as CategoryStat).count, 0);
             setTotalTxCount(totalCount);
             setCategoryStats(catStat);
+            setTransactionByCategory(txByCat);
         }
     }
     useEffect(() => {
@@ -73,7 +93,16 @@ const DetailMonthly = ({date}: DetailMonthlyType) => {
       );
 
     const renderItemList = ({item} : {item: {category: string, percentage: string, count: number, total: number, icon: categoryType} }) => (
-    <CategoryItem percentage={item.percentage} icon={item.icon} total={item.total} category={item.category} count={item.count}/>
+        <TouchableOpacity onPress={() => {
+                                            // Stringify the items so they can be passed as a query parameter
+                                            router.push({
+                                                pathname: '/categoryOverview',
+                                                params: { items: JSON.stringify(transactionByCategory[item.category]) },
+                                            });
+                                        }}>
+            <CategoryItem percentage={item.percentage} icon={item.icon} total={item.total} category={item.category} count={item.count}/>
+        </TouchableOpacity>
+    
     );
       
 
