@@ -28,17 +28,17 @@ const Overview = ({currentDate}: {currentDate: Date}) => {
     <View style={styles.container}>
       <View style={styles.contentContainer}>
         <Image source={Icons.Expenses} style={styles.icon}/>
-        <ThemedText type="body2" color="red">{expense}€</ThemedText>
+        <ThemedText type="body2" color="red">{expense.toLocaleString('fr-FR')}</ThemedText>
         <ThemedText type="caption" color="blackGray">Expenses</ThemedText>
       </View>
       <View style={styles.contentContainer}>
         <Image source={Icons.Balance} style={styles.icon}/>
-        <ThemedText type="body2" color={balance > 0 ? "darkGreen" : "red"}>{balance}€</ThemedText>
+        <ThemedText type="body2" color={balance > 0 ? "darkGreen" : "red"}>{balance.toLocaleString('fr-FR')}</ThemedText>
         <ThemedText type="caption" color="blackGray">Balance</ThemedText>
       </View>
       <View style={styles.contentContainer}>
         <Image source={Icons.Income} style={styles.icon}/>
-        <ThemedText type="body2" color="black">{income}€</ThemedText>
+        <ThemedText type="body2" color="black">{income.toLocaleString('fr-FR')}</ThemedText>
         <ThemedText type="caption" color="blackGray">Income</ThemedText>
       </View>
     </View>

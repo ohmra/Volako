@@ -44,7 +44,7 @@ const ListGroupMonthly = ({items, title}: ListGroupMonthly) => {
     <View style={styles.container}>
       <View style={styles.titleContainer}>
         <ThemedText type="title" color="darkGray">{title}</ThemedText>
-        <ThemedText type="title" color="darkGray">{total}€</ThemedText>
+        <ThemedText type="title" color="darkGray">{total.toLocaleString('fr-FR')} MGA</ThemedText>
       </View>
       <FlatList style={styles.contentContainer} data={items} renderItem={renderItem}
         keyExtractor={(item) => `${item.id}-${item.category}-${item.created_at}`}

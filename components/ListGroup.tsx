@@ -34,7 +34,7 @@ const ListGroup = ({items, title}: ListGroup) => {
     <View style={styles.container}>
       <View style={styles.titleContainer}>
         <ThemedText type="title" color="darkGray">{title}</ThemedText>
-        <ThemedText type="title" color="darkGray">{total}€</ThemedText>
+        <ThemedText type="title" color="darkGray">{total.toLocaleString('fr-FR')} MGA</ThemedText>
       </View>
       <FlatList style={styles.contentContainer} data={items} renderItem={itemRender} 
        keyExtractor={(item, index) => `${index}-${item.category}`}
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 8,
         borderColor: "#E0E0E0",
-        height: 275,
+        flex: 1,
         marginBottom: 12,
         position: "relative"
     },

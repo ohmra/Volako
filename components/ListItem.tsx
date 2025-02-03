@@ -26,7 +26,7 @@ const ListItem = ({icon, income=false, category, description, amount }: ListItem
           <ThemedText>{category}</ThemedText>
         }
       </View>
-      <ThemedText style={styles.amount} color={income ? "darkGreen" : "red"}>{income? "+" : "-"}{amount}€</ThemedText>  
+      <ThemedText style={styles.amount} color={income ? "darkGreen" : "red"}>{income? "+" : "-"}{amount.toLocaleString('fr-FR')} MGA</ThemedText>  
     </View>
   )
 }
