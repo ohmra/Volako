@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import ThemedText from "@/components/ThemedText";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Overview from '../../components/Overview';
@@ -6,8 +6,9 @@ import Icons from '@/constants/Icons'
 import Calendar from '../../components/Calendar';
 import CategoryIcons from '@/constants/CategoryIcons'
 import { useEffect, useState } from "react";
-import { useDatabase } from "@/hooks/useDatabase";
+import { getTransactionByMonth } from "@/hooks/useDatabase";
 import ListGroupMonthly from '../../components/ListGroupMonthly';
+import { router } from 'expo-router';
 
 type categoryType = keyof typeof CategoryIcons
 
@@ -32,7 +33,7 @@ export default function Report() {
   const [fullTransactionData, setFullTransactionData] = useState<Transaction[]>([]);
 
   const fetchData = async () => {
-    const tx = await (await useDatabase()).getTransactionByMonth(currentDate.getMonth()+1, currentDate.getFullYear());
+    const tx = await getTransactionByMonth(currentDate.getMonth()+1, currentDate.getFullYear());
     setFullTransactionData(tx);
   }
   useEffect(() => {
@@ -47,7 +48,7 @@ export default function Report() {
         </View>
         <Calendar currentDate={currentDate} setCurrentDate={setCurrentDate}/>
         <Overview currentDate={currentDate}/>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={() =>router.push('/statistics')}>
           <ThemedText type="body2" color="darkGray" style={styles.buttonContent}>View Statistics</ThemedText>
         </TouchableOpacity>
         <ListGroupMonthly items={fullTransactionData} title={months[currentDate.getMonth()]} />

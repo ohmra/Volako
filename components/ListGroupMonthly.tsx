@@ -25,26 +25,30 @@ type ListGroupMonthly = {
 const ListGroupMonthly = ({items, title}: ListGroupMonthly) => {
   const total = useTransaction(items).getTotal();
 
+  const renderItem = ({item, index}: {item: Transaction, index: number}) => {
+    const previousTransactionDate = index > 0 ? items[index-1].created_at : '';
+    return (
+        <>
+            {(item.created_at !== previousTransactionDate) && 
+            <Text>{(new Date(item.created_at)).toDateString()}</Text>}
+            <ListItem icon={CategoryIcons[item.icon]}
+            category={item.category}
+            description={item.description}
+            amount={item.amount}
+            income={item.income} />
+        </>
+    )
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
         <ThemedText type="title" color="darkGray">{title}</ThemedText>
         <ThemedText type="title" color="darkGray">{total}€</ThemedText>
       </View>
-      <FlatList style={styles.contentContainer} data={items} renderItem={({item, index}) => {
-            const previousTransactionDate = index > 0 ? items[index-1].created_at : '';
-            return (
-                <>
-                    {(item.created_at !== previousTransactionDate) && 
-                    <Text>{(new Date(item.created_at)).toDateString()}</Text>}
-                    <ListItem icon={CategoryIcons[item.icon]}
-                    category={item.category}
-                    description={item.description}
-                    amount={item.amount}
-                    income={item.income} />
-                </>
-            )
-        }}
+      <FlatList style={styles.contentContainer} data={items} renderItem={renderItem}
+        keyExtractor={(item) => `${item.id}-${item.category}-${item.created_at}`}
+        initialNumToRender={10}
         />
 
     </View>

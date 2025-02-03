@@ -22,7 +22,13 @@ type ListGroup = {
 
 const ListGroup = ({items, title}: ListGroup) => {
   const total = useTransaction(items).getTotal();
-  
+  const itemRender = ({item}: {item: ItemType}) => (
+      <ListItem icon={CategoryIcons[item.icon]}
+          category={item.category}
+          description={item.description}
+          amount={item.amount}
+          income={item.income} />
+  )
 
   return (
     <View style={styles.container}>
@@ -30,13 +36,9 @@ const ListGroup = ({items, title}: ListGroup) => {
         <ThemedText type="title" color="darkGray">{title}</ThemedText>
         <ThemedText type="title" color="darkGray">{total}€</ThemedText>
       </View>
-      <FlatList style={styles.contentContainer} data={items} renderItem={({item}) => 
-          <ListItem icon={CategoryIcons[item.icon]}
-          category={item.category}
-          description={item.description}
-          amount={item.amount}
-          income={item.income} />}
-        />
+      <FlatList style={styles.contentContainer} data={items} renderItem={itemRender} 
+       keyExtractor={(item, index) => `${index}-${item.category}`}
+       initialNumToRender={10} />
 
     </View>
   )

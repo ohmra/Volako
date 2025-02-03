@@ -8,7 +8,7 @@ import Icons from '@/constants/Icons'
 import Calendar from '../../components/Calendar';
 import PrimaryButton from '../../components/PrimaryButton';
 import { router, useLocalSearchParams } from "expo-router";
-import { useDatabase } from "@/hooks/useDatabase";
+import { getTodayTransactions, getYesterdayTransactions } from "@/hooks/useDatabase";
 import { useEffect, useState } from "react";
 import Toast from 'react-native-toast-message';
 
@@ -29,8 +29,7 @@ export default function Index() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const { showToast } = useLocalSearchParams();
   const fetchData = async () => {
-    const db = await useDatabase(); // Wait for the database to be set up
-    const todayTx = await db.getTodayTransactions(); // Fetch all data
+    const todayTx = await getTodayTransactions(); // Fetch all data
     const today: ItemType[] = todayTx ? todayTx.map((t) => ({
         icon: t.icon,
         category: t.category,
@@ -39,7 +38,7 @@ export default function Index() {
         income: t.income        
       })) : []
     
-    const yesterdayTx = await db.getYesterdayTransactions();
+    const yesterdayTx = await getYesterdayTransactions();
     const yesterday: ItemType[] = yesterdayTx ? yesterdayTx.map((t) => ({
       icon: t.icon,
       category: t.category,

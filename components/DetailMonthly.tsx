@@ -1,6 +1,6 @@
 import { View, FlatList, Image, StyleSheet } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { useDatabase } from '@/hooks/useDatabase';
+import { getTransactionByMonth } from '@/hooks/useDatabase';
 import CategoryIcons from '@/constants/CategoryIcons';
 import ThemedText from './ThemedText';
 import StatGraph from './StatGraph';
@@ -20,10 +20,8 @@ type CategoryStat = {
 const DetailMonthly = ({date}: DetailMonthlyType) => {
     const [categoryStats, setCategoryStats] = useState({});
     const [totalTxCount, setTotalTxCount] = useState(0);
-
     const fetch = async () => {
-        const db = await useDatabase();
-        const tx = await db.getTransactionByMonth(date.getMonth()+1, date.getFullYear());
+        const tx = await getTransactionByMonth(date.getMonth()+1, date.getFullYear());
         if(tx){
             const catStat: {[key: string]: CategoryStat} = {};
             tx.forEach(t => {
@@ -74,13 +72,18 @@ const DetailMonthly = ({date}: DetailMonthlyType) => {
         </View>
       );
 
+    const renderItemList = ({item} : {item: {category: string, percentage: string, count: number, total: number, icon: categoryType} }) => (
+    <CategoryItem percentage={item.percentage} icon={item.icon} total={item.total} category={item.category} count={item.count}/>
+    );
+      
+
   return (
     <View style={styles.container}>
         <StatGraph items={dataForFlatList} />
         <ThemedText type="title" color="darkGray" style={{marginBottom: 8}}>DETAILS</ThemedText>
-        <FlatList data={dataForFlatList} renderItem={({item}) => 
-            <CategoryItem percentage={item.percentage} icon={item.icon} total={item.total} category={item.category} count={item.count}/>
-            }
+        <FlatList data={dataForFlatList} renderItem={renderItemList}
+                 keyExtractor={(item, index) => `${index}-${item.category}`}
+                 initialNumToRender={10}
             />
     </View>
   )
@@ -95,6 +98,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
+        paddingBottom: 8,
     },
     textContainer: {
         flex: 1

@@ -5,8 +5,8 @@ import KDropdown from '../components/KDropdown';
 import KTextInput from '../components/KTextInput';
 import CategoryBottomSheet from '../components/CategoryBottomSheet';
 import PrimaryButton from '../components/PrimaryButton';
-import { router, useNavigation  } from "expo-router";
-import { useDatabase } from '@/hooks/useDatabase';
+import { useNavigation  } from "expo-router";
+import { create } from '@/hooks/useDatabase';
 import CategoryIcons from '@/constants/CategoryIcons';
 import { CommonActions } from '@react-navigation/native'
 
@@ -37,8 +37,7 @@ const Add = () => {
   const handleSubmit = async () => {
     if(validations(data)){
       console.log('sumbimted data success');
-      const db = await useDatabase();
-      await db.create(parseFloat(data.amount), 
+      await create(parseFloat(data.amount), 
                       data.icon, 
                       data.category, 
                       data.transactionType === "income", 
