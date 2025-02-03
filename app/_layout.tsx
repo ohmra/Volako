@@ -9,5 +9,9 @@ export default function RootLayout() {
           title: 'Add New',
         }}
       />
+      <Stack.Screen
+        name="statistics"
+        options={{ headerShown: false }}
+      />
     </Stack>
 }
