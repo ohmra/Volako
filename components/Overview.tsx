@@ -2,7 +2,7 @@ import { View, Image, StyleSheet } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import ThemedText from './ThemedText';
 import Icons from '@/constants/Icons'
-import { useDatabase } from '@/hooks/useDatabase';
+import { getTransactionByMonth } from '@/hooks/useDatabase';
 import { useTransaction } from '../hooks/useTransaction';
 
 const Overview = ({currentDate}: {currentDate: Date}) => {
@@ -10,7 +10,7 @@ const Overview = ({currentDate}: {currentDate: Date}) => {
   const [income, setIncome] = useState(0);
   useEffect(() => {
     const fetchData = async () => {
-      const transactions = await (await useDatabase()).getTransactionByMonth(currentDate.getMonth()+1, currentDate.getFullYear());
+      const transactions = await getTransactionByMonth(currentDate.getMonth()+1, currentDate.getFullYear());
       const totals = useTransaction(transactions).getIncomeExpense();
       setIncome(totals[0]);
       setExpense(totals[1]);
