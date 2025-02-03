@@ -28,7 +28,6 @@ export default function Index() {
   const [yesterdayTransactions, setYesterdayTransactions] = useState<ItemType[]>([]);
   const [currentDate, setCurrentDate] = useState(new Date());
   const { showToast } = useLocalSearchParams();
-  console.log("date : ", (new Date()).toISOString());
   const fetchData = async () => {
     const db = await useDatabase(); // Wait for the database to be set up
     const todayTx = await db.getTodayTransactions(); // Fetch all data

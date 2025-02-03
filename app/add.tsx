@@ -43,17 +43,6 @@ const Add = () => {
                       data.category, 
                       data.transactionType === "income", 
                       data.description);
-      // Toast.show({
-      //   type: 'success',
-      //   text1: 'Transaction added successfuly',
-      //   visibilityTime: 1500
-      // });
-      // router.back();
-      // console.log("this is after router back");
-      // setTimeout(() => {
-      //   router.replace('/(tabs)');
-      //   console.log("this is after router replace");
-      // }, 1600);
       const keyTabs = `(tabs)-${Date.now()}`;
       const keyIndex = `index-${Date.now()}`;
       navigation.dispatch(

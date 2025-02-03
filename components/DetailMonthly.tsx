@@ -3,27 +3,19 @@ import React, { useEffect, useState } from 'react'
 import { useDatabase } from '@/hooks/useDatabase';
 import CategoryIcons from '@/constants/CategoryIcons';
 import ThemedText from './ThemedText';
+import StatGraph from './StatGraph';
 
 type categoryType = keyof typeof CategoryIcons
-type Transaction = {
-    id: number;
-    amount: number;
-    icon: categoryType;
-    category: string;
-    income: boolean;
-    description: string;
-    created_at: string;
-  };
 
-  type DetailMonthlyType = {
+type DetailMonthlyType = {
     date: Date,
-  }
+}
 
-  type CategoryStat = {
+type CategoryStat = {
     count: number;
     total: number;
     icon: categoryType,
-  };
+};
 
 const DetailMonthly = ({date}: DetailMonthlyType) => {
     const [categoryStats, setCategoryStats] = useState({});
@@ -84,6 +76,7 @@ const DetailMonthly = ({date}: DetailMonthlyType) => {
 
   return (
     <View style={styles.container}>
+    <StatGraph items={dataForFlatList} />
       <FlatList data={dataForFlatList} renderItem={({item}) => 
            <CategoryItem percentage={item.percentage} icon={item.icon} total={item.total} category={item.category} count={item.count}/>
         }
