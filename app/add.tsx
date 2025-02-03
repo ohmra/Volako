@@ -27,10 +27,26 @@ const Add = () => {
 
   // Function to handle input changes
   const handleInputChange = (field: string, value: string) => {
-    setData((prevData) => ({
-      ...prevData,
-      [field]: value,
-    }));
+    if(field === "amount"){
+      // 1. Remove all non-digit characters
+      const rawValue = value.replace(/\D/g, '');
+      
+      // 2. Remove leading zeros
+      const sanitizedValue = rawValue.replace(/^0+/, '');
+      
+      // 3. Format with spaces (optional)
+      const formattedValue = sanitizedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+      setData((prevData) => ({
+        ...prevData,
+        [field]: formattedValue,
+      }));
+    }
+      else{
+        setData((prevData) => ({
+          ...prevData,
+          [field]: value,
+        }));
+    }
   };
   const navigation = useNavigation();
 
@@ -38,13 +54,14 @@ const Add = () => {
   const handleSubmit = async () => {
     if(validations(data)){
       console.log('sumbimted data success');
-      await create(parseFloat(data.amount), 
+      const amount = data.amount.replace(/\s/g, '')
+      await create(parseFloat(amount), 
                       data.icon, 
                       data.category, 
                       data.transactionType === "income", 
                       data.description);
 
-      await updateBalance(data.transactionType === "income" ? parseFloat(data.amount) : (-parseFloat(data.amount)));
+      await updateBalance(data.transactionType === "income" ? parseFloat(amount) : (-parseFloat(amount)));
       
       const keyTabs = `(tabs)-${Date.now()}`;
       const keyIndex = `index-${Date.now()}`;
@@ -70,7 +87,7 @@ const Add = () => {
       <TouchableOpacity onPress={() => setShowCategory(true)}>
         <KTextInput label="Category name" focus={showCategory} readOnly value={data.category} />
       </TouchableOpacity>
-      <KTextInput placeholder='Enter amount' 
+      <KTextInput placeholder='Enter amount (MGA)' 
                   keyboardType="numeric"
                   value={data.amount}
                   onChangeText={(value) => handleInputChange("amount", value)}
@@ -110,7 +127,7 @@ const validations = (data: any) => {
     return false;
   }
 
-  if (isNaN(Number(data.amount)) || Number(data.amount) <= 0) {
+  if (isNaN(Number(data.amount.replace(/\s/g, ''))) || Number(data.amount.replace(/\s/g, '')) <= 0) {
     Alert.alert('Error', 'Please enter a valid amount');
     return false;
   }
