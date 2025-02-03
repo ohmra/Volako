@@ -8,7 +8,8 @@ import PrimaryButton from '../components/PrimaryButton';
 import { useNavigation  } from "expo-router";
 import { create } from '@/hooks/useDatabase';
 import CategoryIcons from '@/constants/CategoryIcons';
-import { CommonActions } from '@react-navigation/native'
+import { CommonActions } from '@react-navigation/native';
+import { updateBalance } from '@/constants/balance';
 
 const dataDropdown = [
   {label: "Expense", value: "expense"},
@@ -42,26 +43,21 @@ const Add = () => {
                       data.category, 
                       data.transactionType === "income", 
                       data.description);
+
+      await updateBalance(data.transactionType === "income" ? parseFloat(data.amount) : (-parseFloat(data.amount)));
+      
       const keyTabs = `(tabs)-${Date.now()}`;
       const keyIndex = `index-${Date.now()}`;
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
-          routes: [
-            {
-              key: keyTabs,
-              name: '(tabs)', // Your tab navigator
-              state: {
-                routes: [
-                  {
-                    key: keyIndex,
-                    name: 'index', // Specific screen in the tab navigator
-                    params: { showToast: 'true' } // <-- Params go here
-                  }
-                ]
-              }
-            }
-          ]
+          routes: [{
+                    key: keyTabs,
+                    name: '(tabs)', // Your tab navigator
+                    state: {
+                      routes: [{key: keyIndex, name: 'index', params: { showToast: 'true' } }]
+                    }
+                  }]
         })
       );
     }

@@ -4,14 +4,18 @@ import ThemedText from './ThemedText';
 import Icons from '@/constants/Icons'
 import { getTransactionByMonth } from '@/hooks/useDatabase';
 import { useTransaction } from '../hooks/useTransaction';
+import { getBalance } from '@/constants/balance';
 
 const Overview = ({currentDate}: {currentDate: Date}) => {
   const [expense, setExpense] = useState(0);
   const [income, setIncome] = useState(0);
+  const [balance, setBalance] = useState(0);
   useEffect(() => {
     const fetchData = async () => {
       const transactions = await getTransactionByMonth(currentDate.getMonth()+1, currentDate.getFullYear());
       const totals = useTransaction(transactions).getIncomeExpense();
+      const b = await getBalance();
+      setBalance(b);
       setIncome(totals[0]);
       setExpense(totals[1]);
     }
@@ -29,7 +33,7 @@ const Overview = ({currentDate}: {currentDate: Date}) => {
       </View>
       <View style={styles.contentContainer}>
         <Image source={Icons.Balance} style={styles.icon}/>
-        <ThemedText type="body2" color="darkGreen">12000€</ThemedText>
+        <ThemedText type="body2" color={balance > 0 ? "darkGreen" : "red"}>{balance}€</ThemedText>
         <ThemedText type="caption" color="blackGray">Balance</ThemedText>
       </View>
       <View style={styles.contentContainer}>
