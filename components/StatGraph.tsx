@@ -16,7 +16,7 @@ type CategoryStat = {
 const StatGraph = ({items}: {items: CategoryStat[]}) => {
   return (
     <View style={styles.container}>
-        <ThemedText type='title' color="darkGray">Overview</ThemedText>
+        <ThemedText type='title' color="darkGray">OVERVIEW</ThemedText>
         <View style={styles.graphContainer}>
             {
                 items.map((item) => 
@@ -34,10 +34,12 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 40,
         borderRadius: 8,
-        overflow: "hidden"
+        overflow: "hidden",
+        marginTop: 8,
+        
     },
     container: {
-
+        marginBottom: 20,
     }
 });
 

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import ThemedText from "@/components/ThemedText";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Overview from '../../components/Overview';
@@ -47,6 +47,9 @@ export default function Report() {
         </View>
         <Calendar currentDate={currentDate} setCurrentDate={setCurrentDate}/>
         <Overview currentDate={currentDate}/>
+        <TouchableOpacity style={styles.button}>
+          <ThemedText type="body2" color="darkGray" style={styles.buttonContent}>View Statistics</ThemedText>
+        </TouchableOpacity>
         <ListGroupMonthly items={fullTransactionData} title={months[currentDate.getMonth()]} />
     </SafeAreaView>
   );
@@ -65,11 +68,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 48,
   },
-  buttonContainer: {
-    position: "absolute",
-    width: 130,
-    bottom: 24,
-    left: "50%",
-    transform: [{ translateX: -49 }],
+  button: {
+    alignItems: "center",
+    alignContent: "center",
+    marginBottom: 8
+  },
+  buttonContent : {
+    backgroundColor: '#F5F5F5',
+    borderRadius: 50,
+    paddingHorizontal: 13,
+    paddingVertical: 8,
   }
 })

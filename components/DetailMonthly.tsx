@@ -76,11 +76,12 @@ const DetailMonthly = ({date}: DetailMonthlyType) => {
 
   return (
     <View style={styles.container}>
-    <StatGraph items={dataForFlatList} />
-      <FlatList data={dataForFlatList} renderItem={({item}) => 
-           <CategoryItem percentage={item.percentage} icon={item.icon} total={item.total} category={item.category} count={item.count}/>
-        }
-        />
+        <StatGraph items={dataForFlatList} />
+        <ThemedText type="title" color="darkGray" style={{marginBottom: 8}}>DETAILS</ThemedText>
+        <FlatList data={dataForFlatList} renderItem={({item}) => 
+            <CategoryItem percentage={item.percentage} icon={item.icon} total={item.total} category={item.category} count={item.count}/>
+            }
+            />
     </View>
   )
 }
