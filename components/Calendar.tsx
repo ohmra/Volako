@@ -32,18 +32,18 @@ const Calendar = ({currentDate, setCurrentDate}: CalendarType) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => handleYearChange(-1)}>
-        <Image source={Icons.LeftArrow} />
+        <Image source={Icons.LeftArrow} style={styles.arrowIcon} resizeMode="contain" />
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.date} onPress={() => setShowMonthPicker(true)}>
-        <Image source={Icons.calendar} />
+        <Image source={Icons.calendar} style={styles.calendarIcon} resizeMode="contain" />
         <ThemedText type="body2" color="darkGray">
           {`${months[currentDate.getMonth()]}, ${currentDate.getFullYear()}`}
         </ThemedText>
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => handleYearChange(1)}>
-        <Image source={Icons.RightArrow} />
+        <Image source={Icons.RightArrow} style={styles.arrowIcon} resizeMode="contain" />
       </TouchableOpacity>
 
       <Modal visible={showMonthPicker}  animationType="fade" transparent={true}
@@ -124,6 +124,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between"
+  },
+  calendarIcon: {
+    width: 16,
+    height: 16
+  },
+  arrowIcon: {
+    width: 24,
+    height: 24,
+    margin: 4,
   }
 });
 
