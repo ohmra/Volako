@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   icon: {
     width: 40,
     height: 40,
-    marginRight: 8
+    marginRight: 8,
   },
   amount: {
     marginLeft: "auto",

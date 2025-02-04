@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   arrowIcon: {
     width: 24,
     height: 24,
-    margin: 4,
+    margin: 4
   }
 });
 
