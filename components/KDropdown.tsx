@@ -36,11 +36,8 @@ const KDropdown = ({data, handleChange}: KdropdownType) => {
 const styles = StyleSheet.create({
     dropdown: {
         width: "100%",
-        height: 48,
         borderRadius: 4,
         justifyContent: "center",
-        paddingHorizontal: 16,
-        paddingVertical: 12,
         marginBottom: 24,
     },
     textStyle: {
@@ -48,6 +45,8 @@ const styles = StyleSheet.create({
         lineHeight: 24,
         fontWeight: "normal",
         color: "#212121",
+        paddingHorizontal: 16,
+        paddingVertical: 12,
     }
 })
 
