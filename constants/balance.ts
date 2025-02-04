@@ -18,7 +18,6 @@ export const getBalance = async () => {
     const balanceString = await AsyncStorage.getItem(BALANCE_KEY);
     if (balanceString !== null) {
       const balance = parseFloat(balanceString);
-      console.log('Retrieved balance:', balance);
       return balance;
     }
     // Return a default value (e.g., 0) if no balance is stored

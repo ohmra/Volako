@@ -18,10 +18,12 @@ const StatGraph = ({items}: {items: CategoryStat[]}) => {
     <View style={styles.container}>
         <ThemedText type='title' color="darkGray">OVERVIEW</ThemedText>
         <View style={styles.graphContainer}>
-            {
+            {   (items && items.length > 0) ?
                 items.map((item) => 
                     <View key={item.category} style={{backgroundColor: CategoryColors[item.icon], width: `${parseFloat(item.percentage)}%`}} />
                 )
+                :
+                <View style={{backgroundColor: "#F5F5F5", width: "100%"}} />
             }
         </View>
     </View>
@@ -35,8 +37,7 @@ const styles = StyleSheet.create({
         height: 40,
         borderRadius: 8,
         overflow: "hidden",
-        marginTop: 8,
-        
+        marginTop: 8
     },
     container: {
         marginBottom: 20,

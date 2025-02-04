@@ -36,9 +36,16 @@ const ListGroup = ({items, title}: ListGroup) => {
         <ThemedText type="title" color="darkGray">{title}</ThemedText>
         <ThemedText type="title" color="darkGray">{total.toLocaleString('fr-FR')} MGA</ThemedText>
       </View>
-      <FlatList style={styles.contentContainer} data={items} renderItem={itemRender} 
-       keyExtractor={(item, index) => `${index}-${item.category}`}
-       initialNumToRender={10} />
+      {(items && items.length > 0) ? 
+        <FlatList style={styles.contentContainer} data={items} renderItem={itemRender} 
+        keyExtractor={(item, index) => `${index}-${item.category}`}
+        initialNumToRender={10} />
+        :
+        <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+          <ThemedText color="blackGray">No transactions</ThemedText>
+        </View>
+      }
+      
 
     </View>
   )

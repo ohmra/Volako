@@ -110,10 +110,16 @@ const DetailMonthly = ({date}: DetailMonthlyType) => {
     <View style={styles.container}>
         <StatGraph items={dataForFlatList} />
         <ThemedText type="title" color="darkGray" style={{marginBottom: 8}}>DETAILS</ThemedText>
-        <FlatList data={dataForFlatList} renderItem={renderItemList}
-                 keyExtractor={(item, index) => `${index}-${item.category}`}
-                 initialNumToRender={10}
-            />
+        {(dataForFlatList && dataForFlatList.length > 0) ?
+            <FlatList data={dataForFlatList} renderItem={renderItemList}
+                    keyExtractor={(item, index) => `${index}-${item.category}`}
+                    initialNumToRender={10}
+                />
+                :
+            <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+            <ThemedText color="blackGray">No transactions</ThemedText>
+            </View>
+        }
     </View>
   )
 }
