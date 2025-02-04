@@ -82,7 +82,7 @@ const CategoryBottomSheet = ({showCategory, setShowCategory, handleInputChange}:
           data={categories}
           numColumns={3}
           contentContainerStyle={styles.listContainer}
-          columnWrapperStyle={styles.gridGap}
+          columnWrapperStyle={styles.wrapperStyle}
           renderItem={({ item }: { item: itemType }) => (
             <TouchableOpacity style={styles.categoryContainer} 
                               onPress={() => onChooseCategory(item)}>
@@ -115,21 +115,19 @@ const styles = StyleSheet.create({
     marginVertical: 12,
   },
   listContainer: {
-    paddingHorizontal: 12,
     paddingBottom: 20,
   },
   categoryContainer: {
-    flex: 1 / 3,
     alignItems: 'center',
-    gap: 6,
-    padding: 12,
+    flex: 1/3,
   },
   icon: {
     width: 40,
     height: 40,
   },
-  gridGap: {
-    gap: 12,
+  wrapperStyle: {
+    justifyContent: "space-between",
+    marginVertical: 24
   },
 });
 
