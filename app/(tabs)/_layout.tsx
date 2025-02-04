@@ -25,6 +25,7 @@ const TabsLayout = () => {
         screenOptions={{
           tabBarActiveTintColor: '#616161',
           tabBarInactiveTintColor: '#616161',
+          tabBarStyle: {height: 55},
           tabBarLabelStyle: {
             fontSize: 12,
             lineHeight: 16

@@ -95,7 +95,7 @@ const Add = () => {
       <KTextInput placeholder='Description (optional)' 
                   value={data.description} 
                   onChangeText={(value) => handleInputChange('description', value)}/>
-      {showCategory && <CategoryBottomSheet showCategory={false} setShowCategory={setShowCategory} handleInputChange={handleInputChange}/>}
+      {showCategory && <CategoryBottomSheet setShowCategory={setShowCategory} handleInputChange={handleInputChange}/>}
       <PrimaryButton style={{borderRadius: 84, 
                             marginTop: "auto",
                             paddingVertical: 12}}

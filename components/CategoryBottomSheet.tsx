@@ -1,7 +1,7 @@
-import { StyleSheet, Image, TouchableOpacity } from 'react-native';
-import React, { useEffect, useRef } from 'react';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import BottomSheet, { BottomSheetBackdrop, BottomSheetFlatList, BottomSheetView } from '@gorhom/bottom-sheet';
+import { StyleSheet, Image, View } from 'react-native';
+import React, { useRef } from 'react';
+import { GestureHandlerRootView, TouchableOpacity } from 'react-native-gesture-handler';
+import BottomSheet, { BottomSheetBackdrop, BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import ThemedText from './ThemedText';
 import CategoryIcons from '@/constants/CategoryIcons';
 
@@ -36,32 +36,24 @@ const categories: Array<itemType> = [
 ];
 
 type categoryBottomSheetType = {
-  showCategory: boolean,
   setShowCategory: (arg: boolean) => void,
   handleInputChange: (field: string, value: string) => void
 }
 
-const CategoryBottomSheet = ({showCategory, setShowCategory, handleInputChange}: categoryBottomSheetType) => {
+const CategoryBottomSheet = ({setShowCategory, handleInputChange}: categoryBottomSheetType) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
-  useEffect(() => {
-    if (showCategory) {
-      bottomSheetRef.current?.snapToIndex(0);
-    } else {
-      bottomSheetRef.current?.close();
-    }
-  }, [showCategory]);
 
   const onChooseCategory = (item: itemType) => {
     handleInputChange("category", item.label);
     handleInputChange("icon", item.icon);
-    bottomSheetRef.current?.close();
+    setShowCategory(false);
   }
 
   return (
     <GestureHandlerRootView style={styles.container}>
       <BottomSheet
         ref={bottomSheetRef}
-        backgroundStyle={styles.bottomSheet}
+        backgroundStyle={styles.bottomSheet}  
         snapPoints={[300]}
         onClose={() => setShowCategory(false)}
         backdropComponent={(props) => (
@@ -70,7 +62,12 @@ const CategoryBottomSheet = ({showCategory, setShowCategory, handleInputChange}:
             disappearsOnIndex={-1}  
             appearsOnIndex={0}
             pressBehavior="close"
-            opacity={0.2}
+            opacity={1}
+            enableTouchThrough={false}
+            animatedPosition={props.animatedPosition}
+            animatedIndex={props.animatedIndex}
+            style={[StyleSheet.absoluteFill, {backgroundColor: 'rgba(0, 0, 0, 0)'}]}
+            
           />
         )}
       >
@@ -81,14 +78,18 @@ const CategoryBottomSheet = ({showCategory, setShowCategory, handleInputChange}:
         <BottomSheetFlatList
           data={categories}
           numColumns={3}
+          keyboardShouldPersistTaps="handled"
+          bounces={false}
           contentContainerStyle={styles.listContainer}
           columnWrapperStyle={styles.wrapperStyle}
           renderItem={({ item }: { item: itemType }) => (
-            <TouchableOpacity style={styles.categoryContainer} 
-                              onPress={() => onChooseCategory(item)}>
-              <Image source={CategoryIcons[item.icon]} style={styles.icon} />
-              <ThemedText>{item.label}</ThemedText>
-            </TouchableOpacity>
+            <View style={{flex: 1/3}}>
+              <TouchableOpacity style={styles.categoryContainer} 
+                                onPress={() => onChooseCategory(item)}>
+                <Image source={CategoryIcons[item.icon]} style={styles.icon} />
+                <ThemedText>{item.label}</ThemedText>
+              </TouchableOpacity>
+            </View>
           )}
         />
       </BottomSheet>
@@ -109,6 +110,8 @@ const styles = StyleSheet.create({
   bottomSheet: {
     backgroundColor: '#FAFAFA',
     borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "#9E9E9E",
   },
   titleText: {
     textAlign: 'center',
@@ -119,7 +122,6 @@ const styles = StyleSheet.create({
   },
   categoryContainer: {
     alignItems: 'center',
-    flex: 1/3,
   },
   icon: {
     width: 40,
