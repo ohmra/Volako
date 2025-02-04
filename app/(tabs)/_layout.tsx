@@ -1,4 +1,4 @@
-import { View, Text, Image, ImageSourcePropType, StyleSheet } from 'react-native'
+import { View, Text, Image, ImageSourcePropType, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { Tabs, Redirect } from 'expo-router'
 import Icons from '@/constants/Icons'
@@ -25,9 +25,14 @@ const TabsLayout = () => {
           tabBarInactiveTintColor: '#616161',
           tabBarLabelStyle: {
             fontSize: 12,
-            lineHeight: 16,
-            backgroundColor: "#FAFAFA"
-          }
+            lineHeight: 16
+          },
+          tabBarButton: (props) => {
+            const safeProps = Object.fromEntries(
+              Object.entries(props).map(([key, value]) => [key, value === null ? undefined : value])
+            );
+          
+            return <TouchableOpacity {...safeProps} />;}
         }}
       >
         <Tabs.Screen name="index" options={{
