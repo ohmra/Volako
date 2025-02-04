@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, View, Image } from "react-native";
 import ThemedText from "@/components/ThemedText";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CategoryIcons from '@/constants/CategoryIcons'

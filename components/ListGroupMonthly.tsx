@@ -1,5 +1,5 @@
 import { View, StyleSheet, FlatList, Text } from 'react-native'
-import React, { useState } from 'react'
+import React from 'react'
 import ThemedText from './ThemedText';
 import ListItem from './ListItem';
 import CategoryIcons from '@/constants/CategoryIcons';

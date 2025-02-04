@@ -1,5 +1,4 @@
 import CategoryIcons from "@/constants/CategoryIcons"
-import { TextInputComponent } from "react-native"
 
 type categoryType = keyof typeof CategoryIcons
 
