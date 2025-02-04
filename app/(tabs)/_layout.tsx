@@ -2,6 +2,8 @@ import { View, Text, Image, ImageSourcePropType, StyleSheet, TouchableOpacity } 
 import React from 'react'
 import { Tabs, Redirect } from 'expo-router'
 import Icons from '@/constants/Icons'
+import { TransitionSpecs } from '@react-navigation/bottom-tabs';
+import { Easing } from 'react-native-reanimated';
 
 type TabIconProps = {
   icon: ImageSourcePropType;        
@@ -32,7 +34,9 @@ const TabsLayout = () => {
               Object.entries(props).map(([key, value]) => [key, value === null ? undefined : value])
             );
           
-            return <TouchableOpacity {...safeProps} />;}
+            return <TouchableOpacity {...safeProps} />},
+          animation: "shift",
+          
         }}
       >
         <Tabs.Screen name="index" options={{
@@ -55,12 +59,12 @@ const TabsLayout = () => {
           )
         }}
         />
-        <Tabs.Screen name="test" options={{
-          title: "Test",
+        <Tabs.Screen name="settings" options={{
+          title: "Settings",
           headerShown: false,
           tabBarIcon: ({focused}) => (
             <TabIcon
-              icon={focused ? Icons.reportFocused : Icons.report}              
+              icon={focused ? Icons.settingsFocused : Icons.settings}              
             /> 
           )
         }}

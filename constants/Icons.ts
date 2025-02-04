@@ -11,4 +11,9 @@ export default {
     RightArrow: require('../assets/icons/RightArrow.png'),
     calendar: require('../assets/icons/calendar.png'),
     addPlus: require('../assets/icons/addPlus.png'),
+    settings: require('../assets/icons/settings.png'),
+    settingsFocused: require('../assets/icons/settingsFocused.png'),
+    Currency: require('../assets/icons/Currency.png'),
+    Language: require('../assets/icons/Language.png'),
+    About: require('../assets/icons/About.png'),
   };

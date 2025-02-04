@@ -27,7 +27,7 @@ export default function Index() {
   const [todayTransactions, setTodayTransactions] = useState<ItemType[]>([]);
   const [yesterdayTransactions, setYesterdayTransactions] = useState<ItemType[]>([]);
   const [currentDate, setCurrentDate] = useState(new Date());
-  const { showToast } = useLocalSearchParams();
+  const { showToast, updatedBalance } = useLocalSearchParams();
   const fetchData = async () => {
     const todayTx = await getTodayTransactions(); // Fetch all data
     const today: ItemType[] = todayTx ? todayTx.map((t) => ({
@@ -55,6 +55,14 @@ export default function Index() {
       Toast.show({
         type: 'success',
         text1: 'Transaction added successfully',
+        visibilityTime: 2000
+      });
+    }
+
+    if (updatedBalance === 'true') {
+      Toast.show({
+        type: 'success',
+        text1: 'Your balance has been updated successfuly',
         visibilityTime: 2000
       });
     }
