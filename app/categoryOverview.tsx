@@ -13,7 +13,7 @@ type Transaction = {
     category: string;
     income: boolean;
     description: string;
-    created_at: string;
+    created_at: Date;
   };
 
 type Params = {
@@ -25,11 +25,11 @@ const CategoryOverview = () => {
     const params = useLocalSearchParams() as Params;
     const items: Transaction[] = params.items ? JSON.parse(params.items as string) : [];
     const renderItem = ({item, index}: {item: Transaction, index: number}) => {
-    const previousTransactionDate = index > 0 ? items[index-1].created_at : '';
+      const previousTransactionDate = index > 0 ? items[index-1].created_at.toDateString() : '';
     return (
         <>
-            {(item.created_at !== previousTransactionDate) && 
-            <Text>{(new Date(item.created_at)).toDateString()}</Text>}
+            {(item.created_at.toDateString() !== previousTransactionDate) && 
+            <Text>{item.created_at.toDateString()}</Text>}
             <ListItem icon={CategoryIcons[item.icon]}
             category={item.category}
             description={item.description}

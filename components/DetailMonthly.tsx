@@ -25,7 +25,7 @@ type Transaction = {
     category: string;
     income: boolean;
     description: string;
-    created_at: string;
+    created_at: Date;
   };
 
 const DetailMonthly = ({date}: DetailMonthlyType) => {
@@ -86,7 +86,7 @@ const DetailMonthly = ({date}: DetailMonthlyType) => {
                 <ThemedText type='caption' color='blackGray'>{count} transaction(s)</ThemedText>
             </View>
             <View style={styles.totalContainer}>
-                <ThemedText style={{textAlign: "right"}}  color={total < 0 ? 'red' : 'darkGreen'}>{total}€</ThemedText>
+                <ThemedText style={{textAlign: "right"}}  color={total < 0 ? 'red' : 'darkGreen'}>{total} MGA</ThemedText>
                 <ThemedText style={{textAlign: "right"}} type="caption">{percentage}</ThemedText>
             </View>
         </View>
