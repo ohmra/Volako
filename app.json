@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Kitty",
-    "slug": "Kitty",
+    "name": "Volako",
+    "slug": "Volako",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -16,7 +16,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.Kitty"
+      "package": "com.anonymous.Volako"
     },
     "web": {
       "bundler": "metro",
