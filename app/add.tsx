@@ -100,7 +100,7 @@ const Add = () => {
                             marginTop: "auto",
                             paddingVertical: 12}}
                       handlePress={handleSubmit}>
-        add new
+        Add
         </PrimaryButton>
     </SafeAreaView>
   )

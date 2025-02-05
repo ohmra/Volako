@@ -16,7 +16,7 @@ const About = ({showAboutModal, setShowAboutModal}: balanceModalType) => {
           <View style={styles.modalOverlay}>
             <TouchableWithoutFeedback>
               <View style={styles.container}>
-                <ThemedText>Kitty is a expense management app to track your daily expenses.</ThemedText>
+                <ThemedText>Volako is an expense management app to track your daily expenses.</ThemedText>
                 <ThemedText>Front Model ©: </ThemedText>
                 <ThemedText type='caption'>figma.com/community/file/1141026080000052242</ThemedText>
                 <ThemedText>v1.0.0</ThemedText>

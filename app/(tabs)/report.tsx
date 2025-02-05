@@ -44,7 +44,7 @@ export default function Report() {
     <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <Image source={Icons.Logo} style={{width: 24, height: 24, margin: 4}} resizeMode="contain"/>
-          <ThemedText type="header" color="darkGray">Kitty</ThemedText>
+          <ThemedText type="header" color="darkGray">Volako</ThemedText>
         </View>
         <Calendar currentDate={currentDate} setCurrentDate={setCurrentDate}/>
         <Overview currentDate={currentDate}/>
