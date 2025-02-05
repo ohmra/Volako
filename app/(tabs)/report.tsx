@@ -19,7 +19,7 @@ type Transaction = {
   category: string;
   income: boolean;
   description: string;
-  created_at: string;
+  created_at: Date;
 };
 
 const months = [

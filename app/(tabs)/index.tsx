@@ -28,6 +28,7 @@ export default function Index() {
   const [yesterdayTransactions, setYesterdayTransactions] = useState<ItemType[]>([]);
   const [currentDate, setCurrentDate] = useState(new Date());
   const { showToast, updatedBalance } = useLocalSearchParams();
+  console.log(new Date().toString());
   const fetchData = async () => {
     const todayTx = await getTodayTransactions(); // Fetch all data
     const today: ItemType[] = todayTx ? todayTx.map((t) => ({

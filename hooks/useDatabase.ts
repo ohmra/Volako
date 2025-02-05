@@ -9,7 +9,7 @@ type Transaction = {
     category: string;
     income: boolean;
     description: string;
-    created_at: string;
+    created_at: Date;
   };
 
   // Create function to insert data into the transactions table
@@ -70,10 +70,11 @@ export async function getAll(){
 
     // Function to get today's transactions
 export async function getTodayTransactions() {
-      const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
       const db = await getDatabaseInstance();
       const statement = await db.prepareAsync(`
-        SELECT * FROM transactions WHERE created_at LIKE '${today}%' ORDER BY created_at DESC
+        SELECT * FROM transactions 
+        WHERE strftime('%Y-%m-%d', datetime(created_at, 'utc', 'localtime')) = date('now', 'localtime')
+        ORDER BY created_at DESC
       `);
       
       try {
@@ -93,11 +94,12 @@ export async function getYesterdayTransactions() {
   // Get yesterday's date in YYYY-MM-DD format
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
-  const yesterdayString = yesterday.toISOString().split('T')[0]; // Get date in YYYY-MM-DD format
 
   const db = await getDatabaseInstance();
   const statement = await db.prepareAsync(`
-    SELECT * FROM transactions WHERE created_at LIKE '${yesterdayString}%' ORDER BY created_at DESC
+      SELECT * FROM transactions 
+      WHERE strftime('%Y-%m-%d', datetime(created_at, 'utc', 'localtime')) = date('now', 'localtime', '-1 day')
+      ORDER BY created_at DESC
   `);
 
   try {
@@ -116,8 +118,8 @@ export async function getTransactionByMonth (month: number, year: number) {
     const db = await getDatabaseInstance();
     const statement = await db.prepareAsync(`
       SELECT * FROM transactions 
-      WHERE strftime('%m', created_at) = $month 
-      AND strftime('%Y', created_at) = $year
+      WHERE strftime('%m', datetime(created_at, 'utc', 'localtime')) = $month 
+      AND strftime('%Y', datetime(created_at, 'utc', 'localtime')) = $year
       ORDER BY created_at DESC
     `);
   
@@ -144,7 +146,7 @@ const convertDataToTransaction = (data: any) => {
         category: row.category,
         income: !!row.income, // Convert 1 or 0 to true/false
         description: row.description,
-        created_at: row.created_at.split('T')[0]
+        created_at: new Date(row.created_at)
       }));
       
       return transactions;
