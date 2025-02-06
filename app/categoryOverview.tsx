@@ -23,7 +23,11 @@ items?: string; // items is passed as a JSON string
 const CategoryOverview = () => {
 
     const params = useLocalSearchParams() as Params;
-    const items: Transaction[] = params.items ? JSON.parse(params.items as string) : [];
+    const rawItems: Transaction[] = params.items ? JSON.parse(params.items as string) : [];
+    const items: Transaction[] = rawItems.map(item => ({
+      ...item,
+      created_at: new Date(item.created_at),
+    }));
     const renderItem = ({item, index}: {item: Transaction, index: number}) => {
       const previousTransactionDate = index > 0 ? items[index-1].created_at.toDateString() : '';
     return (
