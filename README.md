@@ -1,4 +1,5 @@
 Volako is an expense tracker. This project was built in order to learn mobile dev myself (REACT NATIVE).
+
 I did NOT make the design, I found it on figma (https://www.figma.com/community/file/1141026080000052242/kitty-expense-management)
 
 # Welcome to your Expo app 👋
